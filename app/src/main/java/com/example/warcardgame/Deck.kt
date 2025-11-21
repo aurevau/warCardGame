@@ -74,6 +74,8 @@ class Deck() {
     }
 
 
+
+
     fun generateCard(): Card {
         if (shuffledDeck.isEmpty()) {
             throw Exception("No Cards left")
