@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WarCardGame">
         <activity
+            android:name=".UsernameActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlayActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
