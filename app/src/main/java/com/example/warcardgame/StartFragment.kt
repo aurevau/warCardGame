@@ -15,6 +15,7 @@ class StartFragment : Fragment() {
     interface StartFragmentListener {
         fun onePlayerButtonClicked()
         fun twoPlayersButtonClicked()
+        fun exitButtonClicked()
     }
 
     var ownerActivity: StartFragmentListener? = null
@@ -49,6 +50,10 @@ class StartFragment : Fragment() {
 
         binding.players2Btn.setOnClickListener {
             ownerActivity?.twoPlayersButtonClicked()
+        }
+
+        binding.exitBtn.setOnClickListener {
+            ownerActivity?.exitButtonClicked()
         }
 
 

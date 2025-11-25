@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, P
     lateinit var player2: Player
     var totalPlayers : Int = 0
 
-    val game = Game()
+    lateinit var game : Game
 
 
 
@@ -65,32 +65,46 @@ class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, P
                     player1.hand.add(playerCard)
                     player1.hand.add(cpuCard)
                     findViewById<TextView>(R.id.tv_announcement).text = "${player1.name} wins round!"
-                    player1.score = player1.hand.size
-                    findViewById<TextView>(R.id.tv_player1_score).text = player1.score.toString()
+
                 }
                 cpuCard.value > playerCard.value -> {
                     player2.hand.add(playerCard)
                     player2.hand.add(cpuCard)
                     findViewById<TextView>(R.id.tv_announcement).text = "${player2.name} wins round!"
-                    player2.score = player2.hand.size
-                    findViewById<TextView>(R.id.tv_player2_score).text = player2.score.toString()
+
                 }
                 else -> {
                     player1.hand.add(playerCard)
                     player2.hand.add(cpuCard)
-                    player1.score = player1.hand.size
-                    player2.score = player2.hand.size
-                    findViewById<TextView>(R.id.tv_player1_score).text = player1.score.toString()
-                    findViewById<TextView>(R.id.tv_player2_score).text = player2.score.toString()
+
                 }
             }
         }
+
+        player1.score = player1.hand.size
+        player2.score = player2.hand.size
+        findViewById<TextView>(R.id.tv_player1_score).text = player1.score.toString()
+        findViewById<TextView>(R.id.tv_player2_score).text = player2.score.toString()
+
+        if(game.isGameOver()) {
+            val loser = when {
+                player1.hand.isEmpty() -> player1.name
+                player2.hand.isEmpty() -> player2.name
+                else -> "its a tie"
+            }
+
+            findViewById<TextView>(R.id.tv_announcement).text = "GAME OVER! Loser is: $loser"
+        }
     }
 
+    override fun exitButtonClicked() {
+        supportFragmentManager.beginTransaction()
+            .replace(binding.mainContainer.id, startFragment)
+            .commit()    }
 
 
     override fun usernameButtonClicked(username: String) {
-
+        game = Game()
         if (totalPlayers == 1) {
             player1 = Player(username)
             player2 = Player("CPU")

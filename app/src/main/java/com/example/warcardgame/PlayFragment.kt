@@ -20,6 +20,7 @@ class PlayFragment : Fragment() {
 
     interface PlayFragmentListener{
         fun dealButtonClicked(cardPlayer: ImageView, cardCPU: ImageView)
+        fun exitButtonClicked()
     }
 
     var ownerActivity: PlayFragmentListener? = null
@@ -70,6 +71,10 @@ class PlayFragment : Fragment() {
 
 
 
+        }
+
+        binding.exitBtn.setOnClickListener {
+            ownerActivity?.exitButtonClicked()
         }
 
 
