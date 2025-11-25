@@ -23,15 +23,21 @@ class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, P
 
     val game = Game()
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(binding.mainContainer.id, startFragment)
         transaction.commit()
+
+
 
 
     }
@@ -48,30 +54,40 @@ class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, P
         playerCard?.let { cardPlayer.setImageResource(it.image) }
         cpuCard?.let { cardCPU.setImageResource(it.image) }
 
+        player1.score = player1.hand.size
+        player2.score = player2.hand.size
+        findViewById<TextView>(R.id.tv_player1_score).text = player1.score.toString()
+        findViewById<TextView>(R.id.tv_player2_score).text = player2.score.toString()
+
         if(playerCard != null && cpuCard != null) {
             when{
                 playerCard.value > cpuCard.value -> {
                     player1.hand.add(playerCard)
                     player1.hand.add(cpuCard)
                     findViewById<TextView>(R.id.tv_announcement).text = "${player1.name} wins round!"
-                    player1.score++
+                    player1.score = player1.hand.size
                     findViewById<TextView>(R.id.tv_player1_score).text = player1.score.toString()
                 }
                 cpuCard.value > playerCard.value -> {
                     player2.hand.add(playerCard)
                     player2.hand.add(cpuCard)
                     findViewById<TextView>(R.id.tv_announcement).text = "${player2.name} wins round!"
-                    player2.score++
+                    player2.score = player2.hand.size
                     findViewById<TextView>(R.id.tv_player2_score).text = player2.score.toString()
                 }
                 else -> {
                     player1.hand.add(playerCard)
                     player2.hand.add(cpuCard)
-                    findViewById<TextView>(R.id.tv_announcement).text = player2.score.toString()
+                    player1.score = player1.hand.size
+                    player2.score = player2.hand.size
+                    findViewById<TextView>(R.id.tv_player1_score).text = player1.score.toString()
+                    findViewById<TextView>(R.id.tv_player2_score).text = player2.score.toString()
                 }
             }
         }
     }
+
+
 
     override fun usernameButtonClicked(username: String) {
 
@@ -81,6 +97,7 @@ class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, P
             game.addPlayer(player1)
             game.addPlayer(player2)
             game.start()
+
             openPlayFragment(player1.name, player2.name)
         } else if (totalPlayers == 2) {
             playerNames.add(username)
@@ -91,13 +108,18 @@ class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, P
                 game.addPlayer(player1)
                 game.addPlayer(player2)
                 game.start()
+
                 openPlayFragment(player1.name, player2.name)
                 playerNames.clear()
             }
         }
 
 
+
+
     }
+
+
 
     private fun openPlayFragment(player1Name: String, player2Name: String) {
         supportFragmentManager.beginTransaction().apply{
