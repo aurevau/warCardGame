@@ -54,55 +54,56 @@ class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, P
                     player1.hand.add(playerCard)
                     player1.hand.add(cpuCard)
                     findViewById<TextView>(R.id.tv_announcement).text = "${player1.name} wins round!"
+                    player1.score++
+                    findViewById<TextView>(R.id.tv_player1_score).text = player1.score.toString()
                 }
                 cpuCard.value > playerCard.value -> {
                     player2.hand.add(playerCard)
                     player2.hand.add(cpuCard)
-                    findViewById<TextView>(R.id.tv_announcement).text = "CPU wins round!"
+                    findViewById<TextView>(R.id.tv_announcement).text = "${player2.name} wins round!"
+                    player2.score++
+                    findViewById<TextView>(R.id.tv_player2_score).text = player2.score.toString()
                 }
                 else -> {
                     player1.hand.add(playerCard)
                     player2.hand.add(cpuCard)
-                    findViewById<TextView>(R.id.tv_announcement).text = "Oh, its a tie!!"
+                    findViewById<TextView>(R.id.tv_announcement).text = player2.score.toString()
                 }
             }
         }
     }
 
     override fun usernameButtonClicked(username: String) {
-        playerNames.add(username)
-        if (totalPlayers == 1){
+
+        if (totalPlayers == 1) {
             player1 = Player(username)
             player2 = Player("CPU")
             game.addPlayer(player1)
             game.addPlayer(player2)
             game.start()
-
-            openPlayFragment(username)
-
+            openPlayFragment(player1.name, player2.name)
         } else if (totalPlayers == 2) {
-            if(playerNames.size < 2) {
+            playerNames.add(username)
+            if (playerNames.size == 2) {
 
-            } else {
                 player1 = Player(playerNames[0])
                 player2 = Player(playerNames[1])
                 game.addPlayer(player1)
                 game.addPlayer(player2)
                 game.start()
-                openPlayFragment("${playerNames[0]} & ${playerNames[1]}")
+                openPlayFragment(player1.name, player2.name)
                 playerNames.clear()
             }
         }
 
 
-
-
     }
 
-    private fun openPlayFragment(displayName: String) {
+    private fun openPlayFragment(player1Name: String, player2Name: String) {
         supportFragmentManager.beginTransaction().apply{
             val bundle = Bundle()
-            bundle.putString("username_key", displayName)
+            bundle.putString("player1_name", player1Name)
+            bundle.putString("player2_name", player2Name)
             playFragment.arguments = bundle
             replace(binding.mainContainer.id, playFragment)
             commit()

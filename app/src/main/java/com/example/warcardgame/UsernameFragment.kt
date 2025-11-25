@@ -53,6 +53,7 @@ class UsernameFragment : Fragment() {
         val totalPlayers = arguments?.getInt("totalPlayers") ?: 1
         if (totalPlayers == 2) {
             binding.btnStart.setImageResource(R.drawable.next_player)
+
         }
 
         binding.btnStart.setOnClickListener {

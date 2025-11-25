@@ -56,10 +56,11 @@ class PlayFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val player1Name = arguments?.getString("player1_name") ?: "Player 1"
+        val player2Name = arguments?.getString("player2_name") ?: "Player 2"
 
-        val username = arguments?.getString("username_key") ?: ""
-        binding.tvPlayer1Username.text = username
-        binding.tvPlayer2Username.text = "CPU"
+        binding.tvPlayer1Username.text = player1Name
+        binding.tvPlayer2Username.text = player2Name
 
         binding.dealBtn.setOnClickListener {
             val card2: ImageView = binding.cardCpu
