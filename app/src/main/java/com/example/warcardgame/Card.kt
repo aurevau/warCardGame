@@ -1,4 +1,4 @@
 package com.example.warcardgame
 
-data class Card(var category: String, var number: Int, var image: Int) {
+data class Card(val category: String, val value: Int, val image: Int) {
 }
