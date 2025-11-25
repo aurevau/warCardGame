@@ -31,6 +31,7 @@
             android:src="@drawable/war"/>
 
         <TextView
+            tools:text="WOHOO you are the winner"
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_weight="1"
@@ -40,32 +41,7 @@
             android:gravity="center"/>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            >
 
-
-            <TextView
-
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:id="@+id/tv_player2_username"
-                android:gravity="center"/>
-            <TextView
-                android:gravity="center"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:id="@+id/tv_player1_username"
-
-                />
-        </LinearLayout>
 
 
 
@@ -102,6 +78,69 @@
             android:background="@android:color/transparent"
             android:src="@drawable/deal_btn"
             />
+
+        <LinearLayout
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            >
+
+
+            <TextView
+                tools:text="Player1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:id="@+id/tv_player2_username"
+                android:gravity="center"/>
+            <TextView
+                tools:text="Player2"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:id="@+id/tv_player1_username"
+
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            >
+
+
+            <TextView
+
+                tools:text="25"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:id="@+id/tv_player2_score"
+                android:gravity="center"/>
+            <TextView
+                tools:text="2"
+
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:id="@+id/tv_player1_score"
+
+                />
+        </LinearLayout>
 
 
     </LinearLayout>
