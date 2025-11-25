@@ -1,6 +1,7 @@
 package com.example.warcardgame
 
 import android.os.Bundle
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -9,12 +10,16 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.warcardgame.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, PlayFragment.PlayFragmentListener {
+class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, PlayFragment.PlayFragmentListener, UsernameFragment.UsernameFragmentListener {
     lateinit var binding : ActivityMainBinding
+    private var playerNames = mutableListOf<String>()
+
     var startFragment = StartFragment()
     var playFragment = PlayFragment()
+
     lateinit var player1: Player
     lateinit var player2: Player
+    var totalPlayers : Int = 0
 
     val game = Game()
 
@@ -31,22 +36,7 @@ class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, P
 
     }
 
-    override fun startButtonClicked(username: String) {
-        player1 = Player(username)
-        player2 = Player("CPU")
-        game.addPlayer(player1)
-        game.addPlayer(player2)
-        game.start()
 
-        supportFragmentManager.beginTransaction().apply{
-            val bundle = Bundle()
-
-            bundle.putString("username_key", "$username")
-            playFragment.arguments = bundle
-            replace(binding.mainContainer.id, playFragment)
-                .commit()
-        }
-    }
 
     override fun dealButtonClicked(
         cardPlayer: ImageView,
@@ -78,4 +68,73 @@ class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, P
             }
         }
     }
+
+    override fun usernameButtonClicked(username: String) {
+        playerNames.add(username)
+        if (totalPlayers == 1){
+            player1 = Player(username)
+            player2 = Player("CPU")
+            game.addPlayer(player1)
+            game.addPlayer(player2)
+            game.start()
+
+            openPlayFragment(username)
+
+        } else if (totalPlayers == 2) {
+            if(playerNames.size < 2) {
+
+            } else {
+                player1 = Player(playerNames[0])
+                player2 = Player(playerNames[1])
+                game.addPlayer(player1)
+                game.addPlayer(player2)
+                game.start()
+                openPlayFragment("${playerNames[0]} & ${playerNames[1]}")
+                playerNames.clear()
+            }
+        }
+
+
+
+
+    }
+
+    private fun openPlayFragment(displayName: String) {
+        supportFragmentManager.beginTransaction().apply{
+            val bundle = Bundle()
+            bundle.putString("username_key", displayName)
+            playFragment.arguments = bundle
+            replace(binding.mainContainer.id, playFragment)
+            commit()
+        }
+    }
+
+    override fun onePlayerButtonClicked() {
+        totalPlayers = 1
+        val usernameFragment = UsernameFragment()
+        val bundle = Bundle()
+        bundle.putInt("totalPlayers", totalPlayers)
+        usernameFragment.arguments = bundle
+        supportFragmentManager.beginTransaction()
+            .replace(binding.mainContainer.id, usernameFragment)
+            .commit()
+
+    }
+
+        override fun twoPlayersButtonClicked() {
+            totalPlayers = 2
+            val usernameFragment = UsernameFragment()
+            val bundle = Bundle()
+            bundle.putInt("totalPlayers", totalPlayers)
+            usernameFragment.arguments = bundle
+
+            supportFragmentManager.beginTransaction()
+                .replace(binding.mainContainer.id, usernameFragment)
+                .commit()
+
+
+        }
+
+
+
 }
