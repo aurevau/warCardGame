@@ -15,6 +15,7 @@ import kotlin.toString
 class UsernameFragment : Fragment() {
    interface UsernameFragmentListener{
        fun usernameButtonClicked(username: String)
+       fun exitButtonClicked()
    }
 
     var ownerActivity: UsernameFragmentListener? = null
@@ -54,6 +55,10 @@ class UsernameFragment : Fragment() {
         if (totalPlayers == 2) {
             binding.btnStart.setImageResource(R.drawable.next_player)
 
+        }
+
+        binding.exitBtn.setOnClickListener {
+            ownerActivity?.exitButtonClicked()
         }
 
         binding.btnStart.setOnClickListener {
