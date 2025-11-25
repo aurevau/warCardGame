@@ -13,7 +13,8 @@ import com.example.warcardgame.databinding.FragmentStartBinding
 class StartFragment : Fragment() {
 
     interface StartFragmentListener {
-        fun startButtonClicked(username: String)
+        fun onePlayerButtonClicked()
+        fun twoPlayersButtonClicked()
     }
 
     var ownerActivity: StartFragmentListener? = null
@@ -42,11 +43,15 @@ class StartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnStart.setOnClickListener {
-            val player1 = binding.etUsernameInput.text.toString()
-
-            ownerActivity?.startButtonClicked(player1)
+        binding.players1Btn.setOnClickListener {
+            ownerActivity?.onePlayerButtonClicked()
         }
+
+        binding.players2Btn.setOnClickListener {
+            ownerActivity?.twoPlayersButtonClicked()
+        }
+
+
     }
 
     override fun onDetach() {

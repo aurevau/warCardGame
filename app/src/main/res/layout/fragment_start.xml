@@ -11,60 +11,40 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-<!--    <ImageButton-->
-<!--        android:id="@+id/exit_btn"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:src="@drawable/exit_btn"-->
-<!--        android:background="@android:color/transparent"-->
-<!--        android:layout_gravity="end"-->
-<!--        android:layout_marginRight="20dp"-->
-<!--        android:layout_marginTop="36dp"/>-->
+    <ImageButton
+        android:id="@+id/exit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/exit_btn"
+        android:background="@android:color/transparent"
+        android:layout_gravity="end"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="36dp"/>
 
     <ImageView
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="120dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/war"/>
 
-
-        <FrameLayout
-            android:layout_marginTop="108dp"
+        <ImageButton
+            android:paddingTop="48dp"
+            android:id="@+id/players1_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
-
-            <View
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="348dp"
-                android:layout_height="42dp"
-                android:background="@drawable/rectangle"/>
-
-            <EditText
-                android:id="@+id/et_username_input"
-                android:layout_width="348dp"
-                android:layout_height="42dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/white"
-                android:hint="       USERNAME"
-                android:textSize="12dp"
-                />
-        </FrameLayout>
+            android:src="@drawable/player1_btn"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center_horizontal"/>
 
         <ImageButton
-            android:id="@+id/btn_start"
-            android:layout_marginTop="26dp"
+            android:paddingTop="16dp"
+            android:id="@+id/players2_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/player_btn_2"
             android:background="@android:color/transparent"
-            android:src="@drawable/start_btn"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp"
+            android:layout_gravity="center_horizontal"/>
 
-            />
 
     </LinearLayout>
 
