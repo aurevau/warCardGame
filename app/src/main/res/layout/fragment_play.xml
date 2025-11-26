@@ -89,7 +89,7 @@
 
 
             <TextView
-                tools:text="Player1"
+                tools:text="Player2"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
                 android:id="@+id/tv_player2_username"
                 android:gravity="center"/>
             <TextView
-                tools:text="Player2"
+                tools:text="Player1"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="0dp"

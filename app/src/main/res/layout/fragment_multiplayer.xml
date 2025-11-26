@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MultiplayerFragment"
+    android:background="@color/green"
+    android:layout_gravity="center_horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+        <ImageButton
+            android:id="@+id/exit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/exit_btn"
+            android:background="@android:color/transparent"
+            android:layout_gravity="end"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"/>
+
+
+<!--        <TextView-->
+<!--            tools:text="WOHOO you are the winner"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:id="@+id/tv_announcement"-->
+<!--            android:gravity="center"/>-->
+
+        <ImageButton
+            android:id="@+id/deal_btn_opponent"
+            android:paddingTop="36dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/deal_btn"
+            android:rotation="180"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:rotation="180"
+                tools:text="2"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:id="@+id/tv_player2_score" />
+
+
+
+        <TextView
+            android:layout_marginTop="6dp"
+            android:rotation="180"
+            tools:text="Player2"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:id="@+id/tv_player2_username"
+
+            />
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <ImageView
+                android:id="@+id/cardCpu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/background_card"
+                android:padding="8dp"
+                android:rotation="180"/>
+
+            <ImageView
+                android:id="@+id/cardPlayer"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/background_card"
+                android:padding="8dp"/>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/deal_btn"
+            android:paddingTop="36dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/deal_btn"
+            />
+
+
+
+
+
+            <TextView
+                android:layout_marginTop="6dp"
+                tools:text="Player1"
+                android:textSize="24sp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:id="@+id/tv_player1_username"
+
+                />
+
+            <TextView
+                tools:text="2"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:id="@+id/tv_player1_score" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <ImageButton
+
+            android:id="@+id/exit_btn_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/exit_btn"
+            android:background="@android:color/transparent"
+            android:layout_gravity="start"
+            android:layout_marginLeft="20dp"
+            />
+            <TextView
+                tools:text="WOHOO you are the winner"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:id="@+id/tv_announcement"
+                android:gravity="center"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
