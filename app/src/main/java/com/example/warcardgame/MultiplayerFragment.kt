@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.example.warcardgame.PlayFragment.PlayFragmentListener
 import com.example.warcardgame.databinding.FragmentMultiplayerBinding
@@ -31,6 +32,7 @@ class MultiplayerFragment : Fragment() {
     }
 
     lateinit var binding : FragmentMultiplayerBinding
+    lateinit var viewModel: GameViewModel
 
     var ownerActivity: MultiplayerFragmentListener? = null
     // TODO: Rename and change types of parameters
@@ -50,6 +52,9 @@ class MultiplayerFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        viewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
+        
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
