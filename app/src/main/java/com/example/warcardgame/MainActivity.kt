@@ -10,12 +10,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.warcardgame.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, PlayFragment.PlayFragmentListener, UsernameFragment.UsernameFragmentListener {
+class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, PlayFragment.PlayFragmentListener, UsernameFragment.UsernameFragmentListener, MultiplayerFragment.MultiplayerFragmentListener {
     lateinit var binding : ActivityMainBinding
     private var playerNames = mutableListOf<String>()
 
     var startFragment = StartFragment()
     var playFragment = PlayFragment()
+    var multiplayerFragment = MultiplayerFragment()
 
     lateinit var player1: Player
     lateinit var player2: Player
@@ -54,37 +55,12 @@ class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, P
         playerCard?.let { cardPlayer.setImageResource(it.image) }
         cpuCard?.let { cardCPU.setImageResource(it.image) }
 
-        player1.score = player1.hand.size
-        player2.score = player2.hand.size
-        findViewById<TextView>(R.id.tv_player1_score).text = player1.score.toString()
-        findViewById<TextView>(R.id.tv_player2_score).text = player2.score.toString()
+        checkWin(playerCard, cpuCard)
+        setScore()
 
-        if(playerCard != null && cpuCard != null) {
-            when{
-                playerCard.value > cpuCard.value -> {
-                    player1.hand.add(playerCard)
-                    player1.hand.add(cpuCard)
-                    findViewById<TextView>(R.id.tv_announcement).text = "${player1.name} wins round!"
 
-                }
-                cpuCard.value > playerCard.value -> {
-                    player2.hand.add(playerCard)
-                    player2.hand.add(cpuCard)
-                    findViewById<TextView>(R.id.tv_announcement).text = "${player2.name} wins round!"
 
-                }
-                else -> {
-                    player1.hand.add(playerCard)
-                    player2.hand.add(cpuCard)
 
-                }
-            }
-        }
-
-        player1.score = player1.hand.size
-        player2.score = player2.hand.size
-        findViewById<TextView>(R.id.tv_player1_score).text = player1.score.toString()
-        findViewById<TextView>(R.id.tv_player2_score).text = player2.score.toString()
 
         if(game.isGameOver()) {
             val loser = when {
@@ -123,7 +99,7 @@ class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, P
                 game.addPlayer(player2)
                 game.start()
 
-                openPlayFragment(player1.name, player2.name)
+                openMultiplayerFragment(player1.name, player2.name)
                 playerNames.clear()
             }
         }
@@ -142,6 +118,17 @@ class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, P
             bundle.putString("player2_name", player2Name)
             playFragment.arguments = bundle
             replace(binding.mainContainer.id, playFragment)
+            commit()
+        }
+    }
+
+    private fun openMultiplayerFragment(player1Name: String, player2Name: String) {
+        supportFragmentManager.beginTransaction().apply{
+            val bundle = Bundle()
+            bundle.putString("player1_name", player1Name)
+            bundle.putString("player2_name", player2Name)
+            multiplayerFragment.arguments = bundle
+            replace(binding.mainContainer.id, multiplayerFragment)
             commit()
         }
     }
@@ -172,6 +159,56 @@ class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, P
 
         }
 
+    fun setScore(){
+        player1.score = player1.hand.size
+        player2.score = player2.hand.size
+        findViewById<TextView>(R.id.tv_player1_score).text = player1.score.toString()
+        findViewById<TextView>(R.id.tv_player2_score).text = player2.score.toString()
+
+    }
+
+    override fun opponentDealButtonClicked(cardOpponent: ImageView) {
+        val opponentCard = game.drawCard(player1)
+        
+        opponentCard?.let {cardOpponent.setImageResource((it.image))}
+        setScore()
+//        checkWin()
 
 
+
+    }
+
+    fun checkWin(playerCard : Card?, cpuCard : Card?){
+        if(playerCard != null && cpuCard != null) {
+            when{
+                playerCard.value > cpuCard.value -> {
+                    player1.hand.add(playerCard)
+                    player1.hand.add(cpuCard)
+                    findViewById<TextView>(R.id.tv_announcement).text = "${player1.name} wins round!"
+
+                }
+                cpuCard.value > playerCard.value -> {
+                    player2.hand.add(playerCard)
+                    player2.hand.add(cpuCard)
+                    findViewById<TextView>(R.id.tv_announcement).text = "${player2.name} wins round!"
+
+                }
+                else -> {
+                    player1.hand.add(playerCard)
+                    player2.hand.add(cpuCard)
+
+                }
+            }
+        }
+    }
+
+    override fun dealButtonClicked(cardPlayer: ImageView,) {
+        val playerCard = game.drawCard(player2)
+        playerCard?.let {cardPlayer.setImageResource(it.image)}
+
+        setScore()
+
+    }
+
+    
 }
