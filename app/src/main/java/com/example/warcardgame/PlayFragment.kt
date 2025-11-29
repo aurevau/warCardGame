@@ -19,7 +19,7 @@ private const val ARG_PARAM2 = "param2"
 class PlayFragment : Fragment() {
 
     interface PlayFragmentListener{
-        fun dealButtonClicked(cardPlayer: ImageView, cardCPU: ImageView)
+        fun dealButtonClicked(cardPlayer: ImageView, cardCPU: ImageView) : String
         fun exitButtonClicked()
     }
 
@@ -67,7 +67,9 @@ class PlayFragment : Fragment() {
             val card2: ImageView = binding.cardCpu
             val card1: ImageView = binding.cardPlayer
 
-            ownerActivity?.dealButtonClicked(card1, card2)
+            val result = ownerActivity?.dealButtonClicked(card1, card2)
+
+            binding.tvAnnouncement.text = result
 
 
 
