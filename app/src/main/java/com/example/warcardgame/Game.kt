@@ -3,6 +3,7 @@ package com.example.warcardgame
 import android.widget.TextView
 
 class Game {
+    val warPot : MutableList<Card> = mutableListOf()
     val deck = Deck()
     val players = mutableListOf<Player>()
 
@@ -10,6 +11,8 @@ class Game {
         players.add(player)
 
     }
+
+
 
     fun checkWin(player1: Player, player2: Player, card1 : Card, card2: Card): String{
             return when{
@@ -29,6 +32,7 @@ class Game {
                     player1.hand.add(card1)
                     player2.hand.add(card2)
                     "its a tie..."
+
                 }
             }
 
@@ -48,6 +52,7 @@ class Game {
             player.hand.removeAt(0)
         } else null
     }
+
 
     fun isGameOver(): Boolean {
         return players.all {it.hand.isEmpty()}

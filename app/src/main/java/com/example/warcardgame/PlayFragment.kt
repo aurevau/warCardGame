@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import com.example.warcardgame.databinding.FragmentPlayBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -21,6 +22,10 @@ class PlayFragment : Fragment() {
     interface PlayFragmentListener{
         fun dealButtonClicked(cardPlayer: ImageView, cardCPU: ImageView) : String
         fun exitButtonClicked()
+
+        fun onResumeFromWar()
+
+        fun getScores(): Pair<Int, Int>
     }
 
     var ownerActivity: PlayFragmentListener? = null
@@ -68,7 +73,7 @@ class PlayFragment : Fragment() {
             val card1: ImageView = binding.cardPlayer
 
             val result = ownerActivity?.dealButtonClicked(card1, card2)
-
+            setScore()
             binding.tvAnnouncement.text = result
 
 
@@ -101,6 +106,22 @@ class PlayFragment : Fragment() {
                     }
                 }
     }
+
+    override fun onResume() {
+        super.onResume()
+        setScore()
+    }
+
+    fun setScore(){
+        val scores = ownerActivity?.getScores() ?: Pair(0,0)
+        binding.tvPlayer1Score.text = scores.first.toString()
+        binding.tvPlayer2Score.text = scores.second.toString()
+    }
+
+
+
+
+
 
     override fun onDetach() {
         super.onDetach()
