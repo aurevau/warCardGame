@@ -67,6 +67,8 @@ class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, P
                 else -> "its a tie"
 
             }
+            val dealButton = findViewById<ImageButton>(R.id.deal_btn)
+            dealButton.isEnabled = false
             setScore()
             return "GAME OVER! \n Winner is $winner"
         }

@@ -55,7 +55,7 @@ class Game {
 
 
     fun isGameOver(): Boolean {
-        return players.all {it.hand.isEmpty()}
+        return players.any {it.hand.isEmpty()}
     }
 
 
