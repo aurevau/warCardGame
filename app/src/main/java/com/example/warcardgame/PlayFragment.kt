@@ -23,8 +23,6 @@ class PlayFragment : Fragment() {
         fun dealButtonClicked(cardPlayer: ImageView, cardCPU: ImageView) : String
         fun exitButtonClicked()
 
-        fun onResumeFromWar()
-
         fun getScores(): Pair<Int, Int>
     }
 
