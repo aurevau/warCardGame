@@ -1,5 +1,9 @@
 package com.example.warcardgame
 
+import android.R.attr.rotationY
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +13,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 import com.example.warcardgame.databinding.FragmentPlayBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -115,10 +121,6 @@ class PlayFragment : Fragment() {
         binding.tvPlayer1Score.text = scores.first.toString()
         binding.tvPlayer2Score.text = scores.second.toString()
     }
-
-
-
-
 
 
     override fun onDetach() {
