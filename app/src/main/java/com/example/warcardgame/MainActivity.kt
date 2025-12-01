@@ -19,17 +19,18 @@ import java.util.logging.Handler
 class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, PlayFragment.PlayFragmentListener, WarFragment.WarFragmentListener {
     lateinit var binding: ActivityMainBinding
 
-    var startFragment = StartFragment()
-    var playFragment = PlayFragment()
+    val startFragment = StartFragment()
+    val playFragment = PlayFragment()
+
+    val winnerFragment = WinnerFragment()
 
 
     lateinit var player1: Player
     lateinit var player2: Player
 
-    private lateinit var warPlayerCards: List<Card?>
-    private lateinit var warOpponentCards: List<Card?>
-
     lateinit var game: Game
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +71,7 @@ class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, P
             val dealButton = findViewById<ImageButton>(R.id.deal_btn)
             dealButton.isEnabled = false
             setScore()
+            openWinnerFragment(winner)
             return "GAME OVER! \n Winner is $winner"
         }
 
@@ -103,9 +105,6 @@ class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, P
             .commit()
     }
 
-    override fun onResumeFromWar() {
-//        setScore()
-    }
 
     override fun getScores(): Pair<Int, Int> {
     return Pair(player1.hand.size, player2.hand.size)    }
@@ -230,6 +229,16 @@ class MainActivity : AppCompatActivity(), StartFragment.StartFragmentListener, P
 
         }
 
+    }
+
+    fun openWinnerFragment(winner: String){
+        supportFragmentManager.beginTransaction().apply{
+            val bundle = Bundle()
+            bundle.putString("winner", winner)
+            winnerFragment.arguments = bundle
+            replace(binding.mainContainer.id, winnerFragment)
+            commit()
+        }
     }
 
     fun givePotToWinner(winner: Player){
