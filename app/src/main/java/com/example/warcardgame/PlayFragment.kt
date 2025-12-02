@@ -87,7 +87,11 @@ class PlayFragment : Fragment() {
         }
 
         viewModel.winnerName.observe(viewLifecycleOwner) { name ->
-            binding.tvAnnouncement.text = "winner is ${name}"
+            if(name != null) {
+                binding.tvAnnouncement.text = "winner is ${name}"
+            } else {
+                binding.tvAnnouncement.text = "Game reset. Ready to deal"
+            }
         }
 
         viewModel.navigateToWar.observe(viewLifecycleOwner) { shouldNavigate ->
@@ -116,6 +120,8 @@ class PlayFragment : Fragment() {
                         commit()
                     }
                 }, 1000)
+
+                viewModel.doneNavigatingToWinner()
 
 
             }

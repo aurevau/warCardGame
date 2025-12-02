@@ -35,18 +35,64 @@ class WinnerFragment : Fragment() {
 //        val winner = arguments?.getString("winner") ?: "No winner announced"
 //        binding.winnerTextView.text = "Winner is ${winner}"
 
+        val newGameButton = binding.newGameBtn
+        val playAgainButton = binding.playAgainBtn
+
 
         viewModel.winnerName.observe(viewLifecycleOwner){name->
-            binding.winnerTextView.text = "Winner is ${name}"
+            binding.winnerTextmain.text = "Winner is \n ${name}"
+            binding.winnerTextStroke.text = "Winner is \n ${name}"
         }
         YoYo.with(Techniques.Wave)
             .duration(1000)   // 1 sekund, valfritt
             .repeat(0)        // upprepa animationen, valfritt
-            .playOn(binding.winnerTextView)
+            .playOn(binding.winnerTextmain)
+        YoYo.with(Techniques.Wave)
+            .duration(1000)   // 1 sekund, valfritt
+            .repeat(0)        // upprepa animationen, valfritt
+            .playOn(binding.winnerTextStroke)
         YoYo.with(Techniques.Wave)
             .duration(1000)   // 1 sekund, valfritt
             .repeat(0)        // upprepa animationen, valfritt
             .playOn(binding.throphy)
+
+
+        newGameButton.postDelayed({
+            newGameButton.visibility = View.VISIBLE
+            YoYo.with(Techniques.FadeIn)
+                .duration(500)
+                .repeat(0)
+                .playOn(newGameButton)
+            YoYo.with(Techniques.FadeIn)
+        }, 1000)
+
+        playAgainButton.postDelayed({
+            playAgainButton.visibility = View.VISIBLE
+            YoYo.with(Techniques.FadeIn)
+                .duration(500)
+                .repeat(0)
+                .playOn(playAgainButton)
+            YoYo.with(Techniques.FadeIn)
+        }, 500)
+
+        playAgainButton.setOnClickListener {
+            viewModel.resetGame()
+            parentFragmentManager.beginTransaction().apply{
+                replace(R.id.mainContainer, PlayFragment())
+                commit()
+
+            }
+        }
+
+        newGameButton.setOnClickListener {
+            val username = viewModel.player1Name.value ?: "Player1"
+            viewModel.resetStartFragment(username)
+
+            parentFragmentManager.beginTransaction().apply{
+                replace(R.id.mainContainer, StartFragment())
+                commit()
+            }
+        }
 
 
     }

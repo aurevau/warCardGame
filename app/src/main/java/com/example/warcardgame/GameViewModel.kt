@@ -11,6 +11,9 @@ class GameViewModel: ViewModel() {
     private val warPlayerCardsSavedList = mutableListOf<Card?>()
     private val opponentCardsSavedList = mutableListOf<Card?>()
     private val game = Game()
+    val deck = Deck()
+    private lateinit var savedUserName : String
+
     private lateinit var player1: Player
     private lateinit var player2: Player
 
@@ -53,13 +56,21 @@ class GameViewModel: ViewModel() {
     private val _winnerName = MutableLiveData<String>()
     val winnerName: LiveData<String> = _winnerName
 
+
+
     fun startGame(username: String) {
+        savedUserName = username
         player1 = Player(username)
         player2 = Player("CPU")
 
+
+
         game.addPlayer(player1)
         game.addPlayer(player2)
-        game.start()
+
+        deck.initializeCards()
+        deck.dealCards(player1, player2)
+
 
         _player1Name.value = player1.name
         _player2Name.value = player2.name
@@ -182,6 +193,55 @@ class GameViewModel: ViewModel() {
 
     fun doneNavigatingToWar(){
         _navigateToWar.value = null
+    }
+
+    fun resetGame(){
+        game.clearPlayers()
+
+        player1 = Player(savedUserName)
+        player2 = Player("CPU")
+
+        game.addPlayer(player1)
+        game.addPlayer(player2)
+
+        deck.resetDeck()
+        deck.dealCards(player1, player2)
+
+        _player1Name.value = player1.name
+        _player2Name.value = player2.name
+
+
+
+        updateScore()
+
+        _playerCardImage.value = R.drawable.background_card
+        _opponentCardImage.value = R.drawable.background_card
+
+        _winnerName.value= null
+
+
+
+
+
+    }
+
+    fun resetStartFragment(username: String){
+        game.clearPlayers()
+
+        player1 = Player(username)
+        player2 = Player("CpU")
+        deck.resetDeck()
+        deck.dealCards(player1, player2)
+
+        _player1Name.value = player1.name
+        _player2Name.value = player2.name
+
+        updateScore()
+
+        _playerCardImage.value = R.drawable.background_card
+        _opponentCardImage.value = R.drawable.background_card
+
+        _winnerName.value= null
     }
 
 
