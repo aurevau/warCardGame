@@ -38,14 +38,7 @@ class Game {
 
     }
 
-    fun start(){
-        deck.initializeCards()
-        deck.dealCards(players[0], players[1])
-        players[0].score = players[0].hand.size
-        players[1].score = players[1].hand.size
 
-
-    }
 
     fun drawCard(player: Player): Card? {
         return if(player.hand.isNotEmpty()){
@@ -56,6 +49,10 @@ class Game {
 
     fun isGameOver(): Boolean {
         return players.any {it.hand.isEmpty()}
+    }
+
+    fun clearPlayers(){
+        players.clear()
     }
 
 
