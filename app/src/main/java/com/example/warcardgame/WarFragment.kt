@@ -8,32 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.example.warcardgame.PlayFragment.PlayFragmentListener
+import androidx.core.view.postDelayed
+import androidx.lifecycle.ViewModelProvider
 import com.example.warcardgame.databinding.FragmentWarBinding
 
 class WarFragment : Fragment() {
-
-    interface WarFragmentListener{
-        fun onWar(playerCard1: ImageView,
-                  playerCard2: ImageView,
-                  playerCard3: ImageView,
-                  opponentCard1: ImageView,
-                  opponentCard2: ImageView,
-                  opponentCard3: ImageView)
-    }
     lateinit var binding: FragmentWarBinding
+    lateinit var viewModel : GameViewModel
 
-    var ownerActivity: WarFragmentListener? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        try {
-            ownerActivity = context as WarFragmentListener
-            Log.i("SOUT", "War Fragment listener implemented successfully")
-        } catch (e: Exception) {
-            Log.e("SOUT", "War Fragment listener NOT implemented")
-        }
+        viewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -47,11 +33,47 @@ class WarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ownerActivity?.onWar(binding.playerCard1, binding.playerCard2, binding.playerCard3, binding.opponentCard1, binding.opponentCard2, binding.opponentCard3)
-    }
+        viewModel.onWar()
 
-    override fun onDetach() {
-        super.onDetach()
-        ownerActivity = null
+        binding.playerCard1.setOnClickListener {
+            viewModel.revealCard(0)
+        }
+
+        binding.playerCard2.setOnClickListener {
+            viewModel.revealCard(1)
+        }
+
+        binding.playerCard3.setOnClickListener {
+            viewModel.revealCard(2)
+        }
+
+        viewModel.warPlayerCards.observe(viewLifecycleOwner){cards ->
+            binding.playerCard1.setImageResource(cards[0])
+            binding.playerCard2.setImageResource(cards[1])
+            binding.playerCard3.setImageResource(cards[2])
+        }
+
+        viewModel.warOpponentCards.observe(viewLifecycleOwner){cards ->
+            binding.opponentCard1.setImageResource(cards[0])
+            binding.opponentCard2.setImageResource(cards[1])
+            binding.opponentCard3.setImageResource(cards[2])
+        }
+
+        viewModel.navigateToPlay.observe(viewLifecycleOwner){backToPlay ->
+            if(backToPlay == true){
+                binding.root.postDelayed({
+                    parentFragmentManager.popBackStack()
+                }, 1000)
+
+                viewModel.doneNavigatingToPlay()
+            }
+
+        }
+
+        viewModel.announcement.observe(viewLifecycleOwner){text ->
+        binding.textViewWar.text = text
+
+
+    }
     }
 }
