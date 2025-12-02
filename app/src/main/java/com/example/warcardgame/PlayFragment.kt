@@ -13,118 +13,116 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.example.warcardgame.databinding.FragmentPlayBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 
 class PlayFragment : Fragment() {
+    lateinit var viewModel: GameViewModel
+    lateinit var binding: FragmentPlayBinding
 
-    interface PlayFragmentListener{
-        fun dealButtonClicked(cardPlayer: ImageView, cardCPU: ImageView) : String
-        fun exitButtonClicked()
-
-        fun getScores(): Pair<Int, Int>
-    }
-
-    var ownerActivity: PlayFragmentListener? = null
-
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-    lateinit var binding : FragmentPlayBinding
-
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        try {
-            ownerActivity = context as PlayFragmentListener
-            Log.i("SOUT", "Play Fragment listener implemented successfully")
-        } catch (e: Exception) {
-            Log.e("SOUT", "Play Fragment listener NOT implemented")
-        }
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+        viewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-       binding = FragmentPlayBinding.inflate(inflater, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentPlayBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val player1Name = arguments?.getString("player1_name") ?: "Player 1"
-        val player2Name = arguments?.getString("player2_name") ?: "Player 2"
-
-        binding.tvPlayer1Username.text = player1Name
-        binding.tvPlayer2Username.text = player2Name
 
         binding.dealBtn.setOnClickListener {
-            val card2: ImageView = binding.cardCpu
-            val card1: ImageView = binding.cardPlayer
-
-            val result = ownerActivity?.dealButtonClicked(card1, card2)
-            setScore()
-            binding.tvAnnouncement.text = result
-
-
-
+            viewModel.dealCard()
         }
 
         binding.exitBtn.setOnClickListener {
-            ownerActivity?.exitButtonClicked()
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.mainContainer, StartFragment())
+                commit()
+            }
         }
 
+        viewModel.player1Name.observe(viewLifecycleOwner) { name ->
+            binding.tvPlayer1Username.text = name
+        }
 
+        viewModel.player2Name.observe(viewLifecycleOwner) { name ->
+            binding.tvPlayer2Username.text = name
+        }
 
-    }
+        viewModel.announcement.observe(viewLifecycleOwner) { text ->
+            binding.tvAnnouncement.text = text
+        }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PlayFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic fun newInstance(param1: String, param2: String) =
-                PlayFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
+        viewModel.player1Score.observe(viewLifecycleOwner) { score ->
+            binding.tvPlayer1Score.text = score.toString()
+        }
+
+        viewModel.player2Score.observe(viewLifecycleOwner) { score ->
+            binding.tvPlayer2Score.text = score.toString()
+        }
+
+        viewModel.playerCardImage.observe(viewLifecycleOwner) { image ->
+            binding.cardPlayer.setImageResource(image)
+        }
+
+        viewModel.opponentCardImage.observe(viewLifecycleOwner) { image ->
+            binding.cardCpu.setImageResource(image)
+        }
+
+        viewModel.navigateToPlay.observe(viewLifecycleOwner) { backToPlay ->
+            if (backToPlay == true) {
+                parentFragmentManager.popBackStack()
+                viewModel.doneNavigatingToPlay()
+            }
+        }
+
+        viewModel.winnerName.observe(viewLifecycleOwner) { name ->
+            binding.tvAnnouncement.text = "winner is ${name}"
+        }
+
+        viewModel.navigateToWar.observe(viewLifecycleOwner) { shouldNavigate ->
+            if (shouldNavigate == true) {
+                binding.dealBtn.isEnabled = false
+                binding.root.postDelayed({
+                    parentFragmentManager.beginTransaction().apply {
+                        replace(R.id.mainContainer, WarFragment())
+                        addToBackStack(null)
+                        commit()
                     }
-                }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        setScore()
-    }
-
-    fun setScore(){
-        val scores = ownerActivity?.getScores() ?: Pair(0,0)
-        binding.tvPlayer1Score.text = scores.first.toString()
-        binding.tvPlayer2Score.text = scores.second.toString()
-    }
+                }, 1000)
 
 
-    override fun onDetach() {
-        super.onDetach()
-        ownerActivity = null
+                viewModel.doneNavigatingToWar()
+            }
+        }
+
+        viewModel.navigateToWinner.observe(viewLifecycleOwner) { shouldNavigate ->
+            if (shouldNavigate == true) {
+                binding.dealBtn.isEnabled = false
+                val winnerFragment = WinnerFragment()
+                binding.root.postDelayed({
+                    parentFragmentManager.beginTransaction().apply {
+                        replace(R.id.mainContainer, winnerFragment)
+                        commit()
+                    }
+                }, 1000)
+
+
+            }
+
+        }
     }
 }
+
+
+

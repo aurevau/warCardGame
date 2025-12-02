@@ -7,30 +7,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.example.warcardgame.databinding.FragmentStartBinding
 
 
 class StartFragment : Fragment() {
-
-    interface StartFragmentListener {
-        fun exitButtonClicked()
-        fun usernameButtonClicked(username: String)
-    }
-
-    var ownerActivity: StartFragmentListener? = null
-
+    lateinit var viewModel: GameViewModel
     lateinit var binding: FragmentStartBinding
 
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        try {
-            ownerActivity = context as StartFragmentListener
-            Log.i("SOUT", "Start Fragment Listener was implemented successfully")
-        } catch (e: Exception) {
-            Log.e("SOUT", "Start Fragment Listener NOT implemented..!")
-        }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +34,14 @@ class StartFragment : Fragment() {
         binding.startGameBtn.setOnClickListener {
             val name = binding.etUsernameInput.text.toString()
             if(name.isNotEmpty()) {
-                ownerActivity?.usernameButtonClicked(name)
+                viewModel.startGame(name)
+
+                parentFragmentManager.beginTransaction().apply{
+                    val playFragment = PlayFragment()
+                    replace(R.id.mainContainer, playFragment)
+                    commit()
+                }
+
                 binding.etUsernameInput.text.clear()
 
             }
@@ -55,17 +49,12 @@ class StartFragment : Fragment() {
 
 
         binding.exitBtn.setOnClickListener {
-            ownerActivity?.exitButtonClicked()
+            requireActivity().finish()
         }
 
 
     }
 
-    override fun onDetach() {
-        super.onDetach()
-
-        ownerActivity = null
-    }
 
 
 }
