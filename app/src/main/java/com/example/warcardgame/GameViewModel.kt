@@ -1,6 +1,7 @@
 package com.example.warcardgame
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -67,6 +68,9 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     private val _warWinnerName = MutableLiveData<String>()
     val warWinnerName: LiveData<String> = _warWinnerName
 
+    private val _jokerListener = MutableLiveData<String>()
+    val jokerListener: LiveData<String> = _jokerListener
+
 
     fun startGame(username: String) {
         _firstRound.value = true
@@ -90,26 +94,42 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun dealCard(){
+        Log.d("DEBUG_JOKER", "beginning  of dealCard - Player1 handSize=${player1.hand.size}, Player2 handSize=${player2.hand.size}")
         val card1 = game.drawCard(player1)
         val card2 = game.drawCard(player2)
+
+        Log.d("DEBUG_CARD", "Card1 drawn: value=${card1?.value}, image=${card1?.image}")
+        Log.d("DEBUG_CARD", "Card2 drawn: value=${card2?.value}, image=${card2?.image}")
 
         _playerCardImage.value = card1?.image
         _opponentCardImage.value = card2?.image
 
+        Log.d("DEBUG_CARD", "_playerCardImage.value=${_playerCardImage.value}")
+        Log.d("DEBUG_CARD", "_opponentCardImage.value=${_opponentCardImage.value}")
         if (card1 != null && card2 != null){
            val result = game.checkWin(player1, player2, card1, card2)
 
-            if (result == RoundResult.TIE){
-                _roundWinnerName.value = "tie"
-                _navigateToWar.value = true
+            when (result) {
+                RoundResult.PLAYER1_WIN -> _roundWinnerName.value = player1.name
+                RoundResult.PLAYER2_WIN -> _roundWinnerName.value = player2.name
+                RoundResult.TIE -> {
+                    _roundWinnerName.value = "tie"
+                    _navigateToWar.value = true
 
-            } else {
-                _roundWinnerName.value = when (result) {
-                    RoundResult.PLAYER1_WIN -> player1.name
-                    RoundResult.PLAYER2_WIN -> player2.name
-                    else -> ""
                 }
+                RoundResult.JOKERP1 -> {
+                    _jokerListener.value = player1.name
+                    Log.d("DEBUG_JOKER", "Player1 got joker! handSize=${player1.hand.size}")
+                }
+
+                RoundResult.JOKERP2 -> {
+                    _jokerListener.value = player2.name
+                    Log.d("DEBUG_JOKER", "Player2 got joker! handSize=${player2.hand.size}")
+                } else -> ""
+
             }
+
+//
         } else {
             _announcement.value = "noCards"
 
@@ -125,6 +145,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         }
 
         updateScore()
+        Log.d("DEBUG_JOKER", "End of dealCard - Player1 handSize=${player1.hand.size}, Player2 handSize=${player2.hand.size}")
 
     }
 
@@ -275,6 +296,10 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
 
     fun resetRoundWinner() {
         _roundWinnerName.value = null
+    }
+
+    fun jokerHandled(){
+        _jokerListener.value = null
     }
 
 

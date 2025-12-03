@@ -12,6 +12,7 @@
     <string name="game_reset">Spelet börjar om. Tryck när du är redo!</string>
     <string name="no_winner">Ingen vinnare…</string>
     <string name="back_from_war">VI ÄR TILLBAKA, FORTSÄTT SPELA</string>
+    <string name="joker">OH, %1s: FÅR EN JOKER OCH SNOR FEM AV DINA KORT</string>
     <!--War_Fragment -->
     <string name="war_winner">%3s vinner kriget</string>
     <string name="war_text">KRIGET HAR STARTAT… DEN SOM FÅR HÖGST KORT FÅR ALLA</string>

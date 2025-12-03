@@ -68,6 +68,37 @@ class PlayFragment : Fragment() {
             binding.tvPlayer2UsernameStroke.text =getString(R.string.cpu)
         }
 
+        viewModel.jokerListener.observe(viewLifecycleOwner){name ->
+            name ?: return@observe
+            when  {
+                name == viewModel.player1Name.value -> {
+                    YoYo.with(Techniques.Shake)
+                        .duration(1000)
+                        .repeat(0)
+                        .playOn(binding.cardPlayer)
+                }
+
+                name == viewModel.player2Name.value -> {
+                    YoYo.with(Techniques.Shake)
+                        .duration(1000)
+                        .repeat(0)
+                        .playOn(binding.cardCpu)
+
+                }
+
+            }
+
+            binding.root.postDelayed({
+                binding.dealBtn.isEnabled = true
+            },1000)
+
+            binding.dealBtn.isEnabled = false
+            binding.tvAnnouncement.text = getString(R.string.joker, name)
+            binding.tvAnnouncementStroke.text = getString(R.string.joker, name)
+            SoundPlayer.soundEffect(requireActivity())
+            viewModel.jokerHandled()
+        }
+
         viewModel.announcement.observe(viewLifecycleOwner) { text ->
             if (text == "noCards") {
                 binding.tvAnnouncement.text = getString(R.string.noCards)
@@ -105,14 +136,14 @@ class PlayFragment : Fragment() {
 
         viewModel.roundWinnerName.observe(viewLifecycleOwner) { name ->
 
-            when (name) {
-                "tie" -> {binding.tvAnnouncement.text = getString(R.string.tie_text).uppercase()
+            when  {
+               name == "tie" -> {binding.tvAnnouncement.text = getString(R.string.tie_text).uppercase()
                           binding.tvAnnouncementStroke.text = getString(R.string.tie_text).uppercase()}
-                "back" -> {
+               name == "back" -> {
                     binding.tvAnnouncement.text = getString(R.string.back_from_war)
                     binding.tvAnnouncementStroke.text = getString(R.string.back_from_war)
                 }
-                null -> {
+                name == null -> {
                     binding.tvAnnouncement.text = getString(R.string.game_start)
                     binding.tvAnnouncementStroke.text = getString(R.string.game_start)}
                 else -> {
