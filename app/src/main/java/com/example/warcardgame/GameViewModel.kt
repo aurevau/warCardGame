@@ -188,6 +188,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
                 _warWinnerName.value = winner.name
 
                 _navigateToPlay.value = true
+                _roundWinnerName.value = "back"
 //                _announcement.value = ""
             } else {
                _warWinnerName.value = "tie"

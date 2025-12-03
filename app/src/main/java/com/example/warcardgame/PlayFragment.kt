@@ -58,26 +58,33 @@ class PlayFragment : Fragment() {
         }
 
         viewModel.player1Name.observe(viewLifecycleOwner) { name ->
-            binding.tvPlayer1Username.text = name
+            binding.tvPlayer1Username.text = name.uppercase()
+            binding.tvPlayer1UsernameStroke.text = name.uppercase()
+
         }
 
         viewModel.player2Name.observe(viewLifecycleOwner) { name ->
             binding.tvPlayer2Username.text = getString(R.string.cpu)
+            binding.tvPlayer2UsernameStroke.text =getString(R.string.cpu)
         }
 
         viewModel.announcement.observe(viewLifecycleOwner) { text ->
             if (text == "noCards") {
                 binding.tvAnnouncement.text = getString(R.string.noCards)
+                binding.tvAnnouncementStroke.text = getString(R.string.noCards)
             }
             binding.tvAnnouncement.text = text
+            binding.tvAnnouncementStroke.text = text
         }
 
         viewModel.player1Score.observe(viewLifecycleOwner) { score ->
             binding.tvPlayer1Score.text = score.toString()
+            binding.tvPlayer1ScoreStroke.text = score.toString()
         }
 
         viewModel.player2Score.observe(viewLifecycleOwner) { score ->
             binding.tvPlayer2Score.text = score.toString()
+            binding.tvPlayer2ScoreStroke.text = score.toString()
         }
 
         viewModel.playerCardImage.observe(viewLifecycleOwner) { image ->
@@ -99,9 +106,18 @@ class PlayFragment : Fragment() {
         viewModel.roundWinnerName.observe(viewLifecycleOwner) { name ->
 
             when (name) {
-                "tie" -> binding.tvAnnouncement.text = getString(R.string.tie_text)
-                null -> binding.tvAnnouncement.text = getString(R.string.game_start)
-                else -> binding.tvAnnouncement.text = getString(R.string.player_win, name)
+                "tie" -> {binding.tvAnnouncement.text = getString(R.string.tie_text).uppercase()
+                          binding.tvAnnouncementStroke.text = getString(R.string.tie_text).uppercase()}
+                "back" -> {
+                    binding.tvAnnouncement.text = getString(R.string.back_from_war)
+                    binding.tvAnnouncementStroke.text = getString(R.string.back_from_war)
+                }
+                null -> {
+                    binding.tvAnnouncement.text = getString(R.string.game_start)
+                    binding.tvAnnouncementStroke.text = getString(R.string.game_start)}
+                else -> {
+                    binding.tvAnnouncement.text = getString(R.string.player_win, name).uppercase()
+                binding.tvAnnouncementStroke.text = getString(R.string.player_win, name).uppercase()}
             }
 
         }
@@ -109,12 +125,14 @@ class PlayFragment : Fragment() {
         viewModel.firstRound.observe(viewLifecycleOwner) { ifTrue ->
             if (ifTrue == true && viewModel.roundWinnerName.value == null) {
                 binding.tvAnnouncement.text = getString(R.string.game_start)
+                binding.tvAnnouncementStroke.text = getString(R.string.game_start)
             }
         }
 
         viewModel.finalWinnerName.observe(viewLifecycleOwner) { name ->
             if (name != null) {
-                binding.tvAnnouncement.text = getString(R.string.winner_is, name)
+                binding.tvAnnouncement.text = getString(R.string.winner_is, name).uppercase()
+                binding.tvAnnouncementStroke.text = getString(R.string.winner_is, name).uppercase()
 //             else {
 //                binding.tvAnnouncement.text = getString(R.string.game_reset)
 //            }
@@ -141,6 +159,7 @@ class PlayFragment : Fragment() {
         viewModel.warAnnouncement.observe(viewLifecycleOwner) { text ->
             if (text == "noWarCards") {
                 binding.tvAnnouncement.text = getString(R.string.noCardsForWar)
+                binding.tvAnnouncementStroke.text = getString(R.string.noCardsForWar)
             }
         }
 

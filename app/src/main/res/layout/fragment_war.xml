@@ -36,15 +36,34 @@
 
     </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp">
+
+        <TextView
+            android:textStyle="bold"
+            android:id="@+id/textViewWarStroke"
+            android:textSize="@dimen/medium_text_size"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="#1c1c1c"
+            android:text="@string/war_text"/>
+
     <TextView
+        android:textStyle="bold"
+        android:textSize="@dimen/medium_text_size"
         android:id="@+id/textViewWar"
-        android:layout_marginTop="32dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:text="@string/war_text"/>
-
+    </FrameLayout>
     <LinearLayout
         android:id="@+id/playerWarContainer"
         android:layout_marginTop="80dp"
