@@ -50,7 +50,7 @@ class PlayFragment : Fragment() {
 
 
         binding.exitBtn.setOnClickListener {
-            viewModel.resetRoundWinner()
+            viewModel.resetGame()
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.mainContainer, StartFragment())
                 commit()
@@ -89,7 +89,7 @@ class PlayFragment : Fragment() {
         }
 
         viewModel.navigateToPlay.observe(viewLifecycleOwner) { backToPlay ->
-            
+
             if (backToPlay == true) {
                 parentFragmentManager.popBackStack()
                 viewModel.doneNavigatingToPlay()
@@ -100,7 +100,7 @@ class PlayFragment : Fragment() {
 
             when (name) {
                 "tie" -> binding.tvAnnouncement.text = getString(R.string.tie_text)
-                null -> {}
+                null -> binding.tvAnnouncement.text = getString(R.string.game_start)
                 else -> binding.tvAnnouncement.text = getString(R.string.player_win, name)
             }
 

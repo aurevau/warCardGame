@@ -217,6 +217,11 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     fun resetGame(){
         _firstRound.value = false
         game.clearPlayers()
+        game.warPot.clear()
+
+        warPlayerCardsSavedList.clear()
+        opponentCardsSavedList.clear()
+
 
         player1 = Player(savedUserName)
         player2 = Player("CPU")
@@ -270,6 +275,8 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     fun resetRoundWinner() {
         _roundWinnerName.value = null
     }
+
+
 
 
 
