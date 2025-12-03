@@ -14,24 +14,24 @@ class Game {
 
 
 
-    fun checkWin(player1: Player, player2: Player, card1 : Card, card2: Card): String{
+    fun checkWin(player1: Player, player2: Player, card1 : Card, card2: Card): RoundResult{
             return when{
                 card1.value > card2.value -> {
                     player1.hand.add(card1)
                     player1.hand.add(card2)
-                    "${player1.name} wins round!"
+                    RoundResult.PLAYER1_WIN
 
                 }
                 card2.value > card1.value -> {
                     player2.hand.add(card1)
                     player2.hand.add(card2)
-                    "${player2.name} wins round!"
+                    RoundResult.PLAYER2_WIN
 
                 }
                 else -> {
                     player1.hand.add(card1)
                     player2.hand.add(card2)
-                    "its a tie..."
+                    RoundResult.TIE
 
                 }
             }

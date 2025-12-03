@@ -31,7 +31,7 @@
             android:layout_marginTop="88dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="WELCOME TO A GAME OF WAR"
+            android:text="@string/greeting"
             android:textColor="@color/white"
             android:textAlignment="center"
             android:layout_marginBottom="18dp"
@@ -57,7 +57,7 @@
                 android:layout_height="42dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/white"
-                android:hint="      PLEASE ENTER YOUR DESIRED USERNAME"
+                android:hint="@string/username_hint"
                 android:textSize="12dp"
                 />
         </FrameLayout>

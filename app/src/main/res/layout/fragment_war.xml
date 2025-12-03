@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:text="WAR HAS BEGUN WHOEVER PICKS THE \n HIGHEST CARD GETS ALL THE CARDS!"/>
+        android:text="@string/war_text"/>
 
     <LinearLayout
         android:id="@+id/playerWarContainer"

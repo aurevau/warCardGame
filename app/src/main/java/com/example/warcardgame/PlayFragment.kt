@@ -29,6 +29,10 @@ class PlayFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,7 +48,9 @@ class PlayFragment : Fragment() {
             viewModel.dealCard()
         }
 
+
         binding.exitBtn.setOnClickListener {
+            viewModel.resetRoundWinner()
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.mainContainer, StartFragment())
                 commit()
@@ -56,10 +62,13 @@ class PlayFragment : Fragment() {
         }
 
         viewModel.player2Name.observe(viewLifecycleOwner) { name ->
-            binding.tvPlayer2Username.text = name
+            binding.tvPlayer2Username.text = getString(R.string.cpu)
         }
 
         viewModel.announcement.observe(viewLifecycleOwner) { text ->
+            if (text == "noCards") {
+                binding.tvAnnouncement.text = getString(R.string.noCards)
+            }
             binding.tvAnnouncement.text = text
         }
 
@@ -80,18 +89,38 @@ class PlayFragment : Fragment() {
         }
 
         viewModel.navigateToPlay.observe(viewLifecycleOwner) { backToPlay ->
+            
             if (backToPlay == true) {
                 parentFragmentManager.popBackStack()
                 viewModel.doneNavigatingToPlay()
             }
         }
 
-        viewModel.winnerName.observe(viewLifecycleOwner) { name ->
-            if(name != null) {
-                binding.tvAnnouncement.text = "winner is ${name}"
-            } else {
-                binding.tvAnnouncement.text = "Game reset. Ready to deal"
+        viewModel.roundWinnerName.observe(viewLifecycleOwner) { name ->
+
+            when (name) {
+                "tie" -> binding.tvAnnouncement.text = getString(R.string.tie_text)
+                null -> {}
+                else -> binding.tvAnnouncement.text = getString(R.string.player_win, name)
             }
+
+        }
+
+        viewModel.firstRound.observe(viewLifecycleOwner) { ifTrue ->
+            if (ifTrue == true && viewModel.roundWinnerName.value == null) {
+                binding.tvAnnouncement.text = getString(R.string.game_start)
+            }
+        }
+
+        viewModel.finalWinnerName.observe(viewLifecycleOwner) { name ->
+            if (name != null) {
+                binding.tvAnnouncement.text = getString(R.string.winner_is, name)
+//             else {
+//                binding.tvAnnouncement.text = getString(R.string.game_reset)
+//            }
+
+            }
+
         }
 
         viewModel.navigateToWar.observe(viewLifecycleOwner) { shouldNavigate ->
@@ -105,8 +134,13 @@ class PlayFragment : Fragment() {
                     }
                 }, 1000)
 
-
                 viewModel.doneNavigatingToWar()
+            }
+
+        }
+        viewModel.warAnnouncement.observe(viewLifecycleOwner) { text ->
+            if (text == "noWarCards") {
+                binding.tvAnnouncement.text = getString(R.string.noCardsForWar)
             }
         }
 
@@ -128,7 +162,7 @@ class PlayFragment : Fragment() {
 
         }
     }
+
+
 }
-
-
 
