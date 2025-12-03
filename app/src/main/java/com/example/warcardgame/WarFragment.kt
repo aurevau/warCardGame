@@ -72,11 +72,13 @@ class WarFragment : Fragment() {
         }
 
         viewModel.warWinnerName.observe(viewLifecycleOwner){name ->
-            binding.textViewWar.text = getString(R.string.war_winner, name)
+            binding.textViewWar.text = getString(R.string.winner_war, name)
+            binding.textViewWarStroke.text = getString(R.string.winner_war, name)
         }
 
         viewModel.warAnnouncement.observe(viewLifecycleOwner){text ->
         binding.textViewWar.text = text
+            binding.textViewWarStroke.text = text
 
 
     }

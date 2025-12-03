@@ -11,6 +11,7 @@
     <string name="game_start">Kriget har börjat, tryck spela för att starta!</string>
     <string name="game_reset">Spelet börjar om. Tryck när du är redo!</string>
     <string name="no_winner">Ingen vinnare…</string>
+    <string name="back_from_war">VI ÄR TILLBAKA, FORTSÄTT SPELA</string>
     <!--War_Fragment -->
     <string name="war_winner">%3s vinner kriget</string>
     <string name="war_text">KRIGET HAR STARTAT… DEN SOM FÅR HÖGST KORT FÅR ALLA</string>
