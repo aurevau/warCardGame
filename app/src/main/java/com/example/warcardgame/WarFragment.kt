@@ -33,6 +33,7 @@ class WarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         viewModel.onWar()
 
         binding.playerCard1.setOnClickListener {
@@ -70,7 +71,11 @@ class WarFragment : Fragment() {
 
         }
 
-        viewModel.announcement.observe(viewLifecycleOwner){text ->
+        viewModel.warWinnerName.observe(viewLifecycleOwner){name ->
+            binding.textViewWar.text = getString(R.string.war_winner, name)
+        }
+
+        viewModel.warAnnouncement.observe(viewLifecycleOwner){text ->
         binding.textViewWar.text = text
 
 

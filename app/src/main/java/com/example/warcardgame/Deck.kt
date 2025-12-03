@@ -10,6 +10,7 @@ class Deck() {
 
 
     fun initializeCards() {
+        deck.clear()
         deck.add(Card("clover", 14, R.drawable.clover_1))
         deck.add(Card("clover", 2, R.drawable.clover_2))
         deck.add(Card("clover", 3, R.drawable.clover_3))
@@ -75,6 +76,8 @@ class Deck() {
 
 
     fun dealCards(player1: Player, player2: Player) {
+        player1.hand.clear()
+        player2.hand.clear()
         var toP1 = true
         while (shuffledDeck.isNotEmpty()) {
             val card = shuffledDeck.removeAt(0)
@@ -92,8 +95,7 @@ class Deck() {
     }
 
     fun resetDeck(){
-        deck.clear()
+        shuffledDeck.clear()
         initializeCards()
-        shuffledDeck = deck.shuffled().toMutableList()
     }
 }

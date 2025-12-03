@@ -32,28 +32,28 @@ class WinnerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        val winner = arguments?.getString("winner") ?: "No winner announced"
-//        binding.winnerTextView.text = "Winner is ${winner}"
 
         val newGameButton = binding.newGameBtn
         val playAgainButton = binding.playAgainBtn
 
 
-        viewModel.winnerName.observe(viewLifecycleOwner){name->
-            binding.winnerTextmain.text = "Winner is \n ${name}"
-            binding.winnerTextStroke.text = "Winner is \n ${name}"
+        viewModel.finalWinnerName.observe(viewLifecycleOwner){name->
+            binding.winnerTextmain.text = getString(R.string.winner_is, name)
+            binding.winnerTextStroke.text = getString(R.string.winner_is, name)
         }
+
+
         YoYo.with(Techniques.Wave)
-            .duration(1000)   // 1 sekund, valfritt
-            .repeat(0)        // upprepa animationen, valfritt
+            .duration(1000)
+            .repeat(0)
             .playOn(binding.winnerTextmain)
         YoYo.with(Techniques.Wave)
-            .duration(1000)   // 1 sekund, valfritt
-            .repeat(0)        // upprepa animationen, valfritt
+            .duration(1000)
+            .repeat(0)
             .playOn(binding.winnerTextStroke)
         YoYo.with(Techniques.Wave)
-            .duration(1000)   // 1 sekund, valfritt
-            .repeat(0)        // upprepa animationen, valfritt
+            .duration(1000)
+            .repeat(0)
             .playOn(binding.throphy)
 
 
@@ -85,7 +85,7 @@ class WinnerFragment : Fragment() {
         }
 
         newGameButton.setOnClickListener {
-            val username = viewModel.player1Name.value ?: "Player1"
+            val username = viewModel.player1Name.value ?: getString(R.string.player_1)
             viewModel.resetStartFragment(username)
 
             parentFragmentManager.beginTransaction().apply{
