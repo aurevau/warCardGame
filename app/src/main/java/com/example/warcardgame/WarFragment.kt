@@ -71,32 +71,22 @@ class WarFragment : Fragment() {
 
         viewModel.warWinnerName.observe(viewLifecycleOwner) { name ->
             if (name == "tie") {
-                binding.textViewWar.text = getString(R.string.warTie)
-                binding.textViewWarStroke.text = getString(R.string.warTie)
+                setTextView(getString(R.string.warTie))
             } else {
-                binding.textViewWar.text = getString(R.string.winner_war, name).uppercase()
-                binding.textViewWarStroke.text = getString(R.string.winner_war, name).uppercase()
+                setTextView(getString(R.string.winner_war, name))
             }
         }
 
         viewModel.warAnnouncement.observe(viewLifecycleOwner){text ->
             if(text == null){
-                binding.textViewWar.text = getString(R.string.war_text)
-                binding.textViewWarStroke.text = getString(R.string.war_text)
+                setTextView(getString(R.string.war_text))
             }
-
-//            binding.textViewWar.text = text
-//            binding.textViewWarStroke.text = text
-
-
     }
 
         viewModel.jokerListener.observe(viewLifecycleOwner){name ->
             name ?: return@observe
-
             yoyoOnAllWarCards()
-            binding.textViewWar.text = getString(R.string.joker_war, name).uppercase()
-            binding.textViewWarStroke.text = getString(R.string.joker_war, name).uppercase()
+            setTextView(getString(R.string.joker_war, name))
             SoundPlayer.soundEffect(requireActivity())
             viewModel.jokerHandled()
         }
@@ -108,13 +98,9 @@ class WarFragment : Fragment() {
                 binding.playerCard2.isEnabled = false
                 binding.playerCard3.isEnabled = false
             }
-//            else {
-//                binding.playerCard1.isEnabled = true
-//                binding.playerCard2.isEnabled = true
-//                binding.playerCard2.isEnabled = true
-//            }
         }
-    }
+
+        }
 
     fun yoyoOnAllWarCards(){
 
@@ -130,5 +116,12 @@ class WarFragment : Fragment() {
             .duration(1000)
             .repeat(0)
             .playOn(card)}
+    }
+
+
+
+    fun setTextView(text: String){
+        binding.textViewWar.text = text.uppercase()
+        binding.textViewWarStroke.text = text.uppercase()
     }
 }
