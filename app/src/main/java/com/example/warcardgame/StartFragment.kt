@@ -48,9 +48,7 @@ class StartFragment : Fragment() {
                     replace(R.id.mainContainer, playFragment)
                     commit()
                 }
-
                 binding.etUsernameInput.text.clear()
-
             }
         }
 
