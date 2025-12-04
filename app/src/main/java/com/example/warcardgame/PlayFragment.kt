@@ -31,6 +31,8 @@ class PlayFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        binding.cardCpu.setImageResource(R.drawable.background_card)
+        binding.cardPlayer.setImageResource(R.drawable.background_card)
     }
 
     override fun onCreateView(
@@ -93,20 +95,19 @@ class PlayFragment : Fragment() {
             },1000)
 
             binding.dealBtn.isEnabled = false
-            binding.tvAnnouncement.text = getString(R.string.joker, name)
-            binding.tvAnnouncementStroke.text = getString(R.string.joker, name)
+            binding.tvAnnouncement.text = getString(R.string.joker, name).uppercase()
+            binding.tvAnnouncementStroke.text = getString(R.string.joker, name).uppercase()
             SoundPlayer.soundEffect(requireActivity())
             viewModel.jokerHandled()
         }
 
-        viewModel.announcement.observe(viewLifecycleOwner) { text ->
-            if (text == "noCards") {
-                binding.tvAnnouncement.text = getString(R.string.noCards)
-                binding.tvAnnouncementStroke.text = getString(R.string.noCards)
-            }
-            binding.tvAnnouncement.text = text
-            binding.tvAnnouncementStroke.text = text
-        }
+//        viewModel.announcement.observe(viewLifecycleOwner) { text ->
+//            if (text == "noCards") {
+//                binding.tvAnnouncement.text = getString(R.string.noCards)
+//                binding.tvAnnouncementStroke.text = getString(R.string.noCards)
+//            }
+//
+//
 
         viewModel.player1Score.observe(viewLifecycleOwner) { score ->
             binding.tvPlayer1Score.text = score.toString()
@@ -138,10 +139,16 @@ class PlayFragment : Fragment() {
 
             when  {
                name == "tie" -> {binding.tvAnnouncement.text = getString(R.string.tie_text).uppercase()
-                          binding.tvAnnouncementStroke.text = getString(R.string.tie_text).uppercase()}
+                          binding.tvAnnouncementStroke.text = getString(R.string.tie_text).uppercase()
+                          binding.dealBtn.isEnabled = false}
+
                name == "back" -> {
                     binding.tvAnnouncement.text = getString(R.string.back_from_war)
                     binding.tvAnnouncementStroke.text = getString(R.string.back_from_war)
+                }
+                name == "noWarCards" -> {
+                    binding.tvAnnouncement.text = getString(R.string.noCardsForWar)
+                    binding.tvAnnouncementStroke.text = getString(R.string.noCardsForWar)
                 }
                 name == null -> {
                     binding.tvAnnouncement.text = getString(R.string.game_start)
@@ -164,12 +171,12 @@ class PlayFragment : Fragment() {
             if (name != null) {
                 binding.tvAnnouncement.text = getString(R.string.winner_is, name).uppercase()
                 binding.tvAnnouncementStroke.text = getString(R.string.winner_is, name).uppercase()
-//             else {
-//                binding.tvAnnouncement.text = getString(R.string.game_reset)
-//            }
+                binding.dealBtn.isEnabled = false
 
+
+            } else {
+                binding.dealBtn.isEnabled = true
             }
-
         }
 
         viewModel.navigateToWar.observe(viewLifecycleOwner) { shouldNavigate ->
@@ -181,18 +188,18 @@ class PlayFragment : Fragment() {
                         addToBackStack(null)
                         commit()
                     }
-                }, 1000)
+                }, 1500)
 
                 viewModel.doneNavigatingToWar()
             }
 
         }
-        viewModel.warAnnouncement.observe(viewLifecycleOwner) { text ->
-            if (text == "noWarCards") {
-                binding.tvAnnouncement.text = getString(R.string.noCardsForWar)
-                binding.tvAnnouncementStroke.text = getString(R.string.noCardsForWar)
-            }
-        }
+//        viewModel.warAnnouncement.observe(viewLifecycleOwner) { text ->
+//            if (text == "noWarCards") {
+//                binding.tvAnnouncement.text = getString(R.string.noCardsForWar)
+//                binding.tvAnnouncementStroke.text = getString(R.string.noCardsForWar)
+//            }
+//        }
 
         viewModel.navigateToWinner.observe(viewLifecycleOwner) { shouldNavigate ->
             if (shouldNavigate == true) {

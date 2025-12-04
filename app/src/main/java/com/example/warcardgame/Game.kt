@@ -16,6 +16,12 @@ class Game {
 
     fun checkWin(player1: Player, player2: Player, card1 : Card, card2: Card): RoundResult {
         return when {
+
+            card1.value == card2.value -> {
+                player1.hand.add(card1)
+                player2.hand.add(card2)
+                RoundResult.TIE
+            }
             card1.value == 15 -> {
                 val stolenCards = listOfNotNull(
                     drawCard(player2),
@@ -23,6 +29,8 @@ class Game {
                     drawCard(player2),
                     drawCard(player2),
                     drawCard(player2))
+                player1.hand.add(card1)
+                player1.hand.add(card2)
                 player1.hand.addAll(stolenCards)
                 RoundResult.JOKERP1
 
@@ -35,6 +43,8 @@ class Game {
                     drawCard(player1),
                     drawCard(player1),
                     drawCard(player1))
+                player2.hand.add(card1)
+                player2.hand.add(card2)
                 player2.hand.addAll(stolenCards)
                 RoundResult.JOKERP2
             }
@@ -43,21 +53,13 @@ class Game {
                 player1.hand.add(card1)
                 player1.hand.add(card2)
                 RoundResult.PLAYER1_WIN
-
-            }
-
-            card2.value > card1.value -> {
-                player2.hand.add(card1)
-                player2.hand.add(card2)
-                RoundResult.PLAYER2_WIN
             }
 
             else -> {
-                    player1.hand.add(card1)
+                    player2.hand.add(card1)
                     player2.hand.add(card2)
-                    RoundResult.TIE
-
-                }
+                    RoundResult.PLAYER2_WIN
+            }
         }
 
     }

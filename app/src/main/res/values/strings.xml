@@ -7,17 +7,19 @@
     <string name="username_hint">PLEASE ENTER YOUR DESIRED USERNAME</string>
 
     <!--Play_Fragment -->
-    <string name="winner_is">WINNER IS %1$s</string>
+    <string name="winner_is">WINNER IS: %1$s</string>
     <string name="game_start">WAR HAS BEGUN, PRESS DEAL TO START!</string>
     <string name="game_reset">GAME RESET, READY TO DEAL</string>
     <string name="no_winner">NO WINNER ANNOUNCED</string>
     <string name="back_from_war">AND WE ARE BACK, GAME IS ON</string>
-    <string name="joker">OH, %1s: GETS A JOKER AND STEALS FIVE CARDS</string>
+    <string name="joker">OH, %1s: GETS A JOKER AND STEALS FIVE EXTRA CARDS</string>
 
     <!--War_Fragment -->
-    <string name="war_winner">%3s WINS THE WAR</string>
-    <string name="war_text">WAR HAS BEGUN WHOEVER PICKS THE \n HIGHEST CARD GETS ALL THE CARDS!</string>
-
+    <string name="war_winner">%3s: WINS THE WAR</string>
+    <string name="war_text">WAR HAS BEGUN WHOEVER PICKS THE HIGHEST CARD GETS ALL THE CARDS!</string>
+    <string name="joker_war">OH, %1s: GETS A JOKER AND STEALS FIVE CARDS PLUS ALL WAR CARDS…</string>
+    <string name="warTie">OOH ITS A TIE, OPEN ANOTHER CARD</string>
+    <string name="winner_war">%1$s: WINS WAR AND GET SIX EXTRA CARDS THIS ROUND</string>
     <!--Winner_Fragment -->
     <string name="player_1">Player 1</string>
 
@@ -25,8 +27,8 @@
     <string name="cpu">COMPUTER</string>
     <string name="noCards">OUT OF CARDS...</string>
     <string name="noCardsForWar">THERE IS NOT ENOUGH CARDS TO GO INTO WAR…</string>
-    <string name="winner_war">%1$s WINS WAR AND GET SIX EXTRA CARDS THIS ROUND</string>
-    <string name="warTie">OOH ITS A TIE, OPEN ANOTHER CARD</string>
+
+
 
     <!--Game -->
     <string name="player_win">%2s: WINS THE ROUND</string>

@@ -68,6 +68,9 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     private val _warWinnerName = MutableLiveData<String>()
     val warWinnerName: LiveData<String> = _warWinnerName
 
+    private val _cardsDisabled = MutableLiveData<Boolean>()
+    val cardsDisabled: LiveData<Boolean> = _cardsDisabled
+
     private val _jokerListener = MutableLiveData<String>()
     val jokerListener: LiveData<String> = _jokerListener
 
@@ -114,8 +117,16 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
                 RoundResult.PLAYER2_WIN -> _roundWinnerName.value = player2.name
                 RoundResult.TIE -> {
                     _roundWinnerName.value = "tie"
-                    _navigateToWar.value = true
 
+
+                    if (player1.hand.size < 3 || player2.hand.size < 3) {
+                        _announcement.value = "noWarCards"
+                        _navigateToWar.value = false
+                    } else {
+                        _navigateToWar.value = true
+                        _warAnnouncement.value = null
+
+                    }
                 }
                 RoundResult.JOKERP1 -> {
                     _jokerListener.value = player1.name
@@ -150,7 +161,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun onWar(){
-
+        _cardsDisabled.value = false
         if(player1.hand.size <3 || player2.hand.size <3) {
             _warAnnouncement.value = "noWarCards"
             _navigateToPlay.value = true
@@ -181,6 +192,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
 
 
     fun revealCard(index: Int){
+
         val playerCard = warPlayerCardsSavedList[index]
         val opponentCard = opponentCardsSavedList[index]
         game.warPot.clear()
@@ -196,6 +208,18 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
             if (index == 2) opponentCard?.image ?: R.drawable.background_card else R.drawable.background_card
         )
 
+        if (playerCard?.value == 15) {
+            _jokerListener.value = player1.name
+            _cardsDisabled.value = true
+            _navigateToPlay.value = true
+            return
+        } else if (opponentCard?.value == 15){
+            _jokerListener.value = player2.name
+            _cardsDisabled.value = true
+            _navigateToPlay.value = true
+            return
+        }
+
         if (playerCard != null && opponentCard != null){
             val winner = when {
                 playerCard.value > opponentCard.value -> player1
@@ -204,17 +228,28 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
             }
 
             if(winner != null){
+                _cardsDisabled.value = true
                 winner.hand.addAll(game.warPot)
                 game.warPot.clear()
                 _warWinnerName.value = winner.name
 
                 _navigateToPlay.value = true
                 _roundWinnerName.value = "back"
-//                _announcement.value = ""
             } else {
+                _cardsDisabled.value = false
                _warWinnerName.value = "tie"
+
             }
         }
+
+        if (game.isGameOver()){
+            val winner = if(player1.hand.isEmpty()) player2.name else player1.name
+            _finalWinnerName.value = winner
+            updateScore()
+            _navigateToWinner.value = true
+
+        }
+
 
         updateScore()
     }
