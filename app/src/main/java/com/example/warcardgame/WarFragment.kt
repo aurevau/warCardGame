@@ -1,15 +1,13 @@
 package com.example.warcardgame
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.core.view.postDelayed
 import androidx.lifecycle.ViewModelProvider
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 import com.example.warcardgame.databinding.FragmentWarBinding
 
 class WarFragment : Fragment() {
@@ -64,23 +62,73 @@ class WarFragment : Fragment() {
             if(backToPlay == true){
                 binding.root.postDelayed({
                     parentFragmentManager.popBackStack()
-                }, 1000)
+                }, 1500)
 
                 viewModel.doneNavigatingToPlay()
             }
 
         }
 
-        viewModel.warWinnerName.observe(viewLifecycleOwner){name ->
-            binding.textViewWar.text = getString(R.string.winner_war, name)
-            binding.textViewWarStroke.text = getString(R.string.winner_war, name)
+        viewModel.warWinnerName.observe(viewLifecycleOwner) { name ->
+            if (name == "tie") {
+                binding.textViewWar.text = getString(R.string.warTie)
+                binding.textViewWarStroke.text = getString(R.string.warTie)
+            } else {
+                binding.textViewWar.text = getString(R.string.winner_war, name).uppercase()
+                binding.textViewWarStroke.text = getString(R.string.winner_war, name).uppercase()
+            }
         }
 
         viewModel.warAnnouncement.observe(viewLifecycleOwner){text ->
-        binding.textViewWar.text = text
-            binding.textViewWarStroke.text = text
+            if(text == null){
+                binding.textViewWar.text = getString(R.string.war_text)
+                binding.textViewWarStroke.text = getString(R.string.war_text)
+            }
+
+//            binding.textViewWar.text = text
+//            binding.textViewWarStroke.text = text
 
 
     }
+
+        viewModel.jokerListener.observe(viewLifecycleOwner){name ->
+            name ?: return@observe
+
+            yoyoOnAllWarCards()
+            binding.textViewWar.text = getString(R.string.joker_war, name).uppercase()
+            binding.textViewWarStroke.text = getString(R.string.joker_war, name).uppercase()
+            SoundPlayer.soundEffect(requireActivity())
+            viewModel.jokerHandled()
+        }
+
+
+        viewModel.cardsDisabled.observe(viewLifecycleOwner){ isTrue ->
+            if (isTrue) {
+                binding.playerCard1.isEnabled = false
+                binding.playerCard2.isEnabled = false
+                binding.playerCard3.isEnabled = false
+            }
+//            else {
+//                binding.playerCard1.isEnabled = true
+//                binding.playerCard2.isEnabled = true
+//                binding.playerCard2.isEnabled = true
+//            }
+        }
+    }
+
+    fun yoyoOnAllWarCards(){
+
+        val cards = listOf(
+            binding.playerCard1,
+            binding.playerCard2,
+            binding.playerCard3,
+            binding.opponentCard1,
+            binding.opponentCard2,
+            binding.opponentCard3
+        )
+        for (card in cards)  {YoYo.with(Techniques.Shake)
+            .duration(1000)
+            .repeat(0)
+            .playOn(card)}
     }
 }

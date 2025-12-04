@@ -35,12 +35,14 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="4dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:layout_gravity="center_horizontal"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:padding="16dp">
+<!--            android:paddingLeft="10dp"-->
+<!--            android:paddingRight="10dp">-->
 
             <TextView
+                android:layout_gravity="center"
                 tools:text="WOHOO you are the winner"
                 android:layout_marginTop="2dp"
                 android:layout_marginStart="4dp"
@@ -54,6 +56,7 @@
 
 
             <TextView
+                android:layout_gravity="center"
                 tools:text="WOHOO you are the winner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

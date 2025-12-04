@@ -31,6 +31,8 @@ class PlayFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        binding.cardCpu.setImageResource(R.drawable.background_card)
+        binding.cardPlayer.setImageResource(R.drawable.background_card)
     }
 
     override fun onCreateView(
@@ -68,14 +70,44 @@ class PlayFragment : Fragment() {
             binding.tvPlayer2UsernameStroke.text =getString(R.string.cpu)
         }
 
-        viewModel.announcement.observe(viewLifecycleOwner) { text ->
-            if (text == "noCards") {
-                binding.tvAnnouncement.text = getString(R.string.noCards)
-                binding.tvAnnouncementStroke.text = getString(R.string.noCards)
+        viewModel.jokerListener.observe(viewLifecycleOwner){name ->
+            name ?: return@observe
+            when  {
+                name == viewModel.player1Name.value -> {
+                    YoYo.with(Techniques.Shake)
+                        .duration(1000)
+                        .repeat(0)
+                        .playOn(binding.cardPlayer)
+                }
+
+                name == viewModel.player2Name.value -> {
+                    YoYo.with(Techniques.Shake)
+                        .duration(1000)
+                        .repeat(0)
+                        .playOn(binding.cardCpu)
+
+                }
+
             }
-            binding.tvAnnouncement.text = text
-            binding.tvAnnouncementStroke.text = text
+
+            binding.root.postDelayed({
+                binding.dealBtn.isEnabled = true
+            },1000)
+
+            binding.dealBtn.isEnabled = false
+            binding.tvAnnouncement.text = getString(R.string.joker, name).uppercase()
+            binding.tvAnnouncementStroke.text = getString(R.string.joker, name).uppercase()
+            SoundPlayer.soundEffect(requireActivity())
+            viewModel.jokerHandled()
         }
+
+//        viewModel.announcement.observe(viewLifecycleOwner) { text ->
+//            if (text == "noCards") {
+//                binding.tvAnnouncement.text = getString(R.string.noCards)
+//                binding.tvAnnouncementStroke.text = getString(R.string.noCards)
+//            }
+//
+//
 
         viewModel.player1Score.observe(viewLifecycleOwner) { score ->
             binding.tvPlayer1Score.text = score.toString()
@@ -105,14 +137,20 @@ class PlayFragment : Fragment() {
 
         viewModel.roundWinnerName.observe(viewLifecycleOwner) { name ->
 
-            when (name) {
-                "tie" -> {binding.tvAnnouncement.text = getString(R.string.tie_text).uppercase()
-                          binding.tvAnnouncementStroke.text = getString(R.string.tie_text).uppercase()}
-                "back" -> {
+            when  {
+               name == "tie" -> {binding.tvAnnouncement.text = getString(R.string.tie_text).uppercase()
+                          binding.tvAnnouncementStroke.text = getString(R.string.tie_text).uppercase()
+                          binding.dealBtn.isEnabled = false}
+
+               name == "back" -> {
                     binding.tvAnnouncement.text = getString(R.string.back_from_war)
                     binding.tvAnnouncementStroke.text = getString(R.string.back_from_war)
                 }
-                null -> {
+                name == "noWarCards" -> {
+                    binding.tvAnnouncement.text = getString(R.string.noCardsForWar)
+                    binding.tvAnnouncementStroke.text = getString(R.string.noCardsForWar)
+                }
+                name == null -> {
                     binding.tvAnnouncement.text = getString(R.string.game_start)
                     binding.tvAnnouncementStroke.text = getString(R.string.game_start)}
                 else -> {
@@ -133,12 +171,12 @@ class PlayFragment : Fragment() {
             if (name != null) {
                 binding.tvAnnouncement.text = getString(R.string.winner_is, name).uppercase()
                 binding.tvAnnouncementStroke.text = getString(R.string.winner_is, name).uppercase()
-//             else {
-//                binding.tvAnnouncement.text = getString(R.string.game_reset)
-//            }
+                binding.dealBtn.isEnabled = false
 
+
+            } else {
+                binding.dealBtn.isEnabled = true
             }
-
         }
 
         viewModel.navigateToWar.observe(viewLifecycleOwner) { shouldNavigate ->
@@ -150,18 +188,18 @@ class PlayFragment : Fragment() {
                         addToBackStack(null)
                         commit()
                     }
-                }, 1000)
+                }, 1500)
 
                 viewModel.doneNavigatingToWar()
             }
 
         }
-        viewModel.warAnnouncement.observe(viewLifecycleOwner) { text ->
-            if (text == "noWarCards") {
-                binding.tvAnnouncement.text = getString(R.string.noCardsForWar)
-                binding.tvAnnouncementStroke.text = getString(R.string.noCardsForWar)
-            }
-        }
+//        viewModel.warAnnouncement.observe(viewLifecycleOwner) { text ->
+//            if (text == "noWarCards") {
+//                binding.tvAnnouncement.text = getString(R.string.noCardsForWar)
+//                binding.tvAnnouncementStroke.text = getString(R.string.noCardsForWar)
+//            }
+//        }
 
         viewModel.navigateToWinner.observe(viewLifecycleOwner) { shouldNavigate ->
             if (shouldNavigate == true) {
