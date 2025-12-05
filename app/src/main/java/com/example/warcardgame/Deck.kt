@@ -78,8 +78,6 @@ class Deck() {
     }
 
 
-
-
     fun dealCards(player1: Player, player2: Player) {
         player1.hand.clear()
         player2.hand.clear()
@@ -92,10 +90,7 @@ class Deck() {
                 player2.hand.add(card)
             }
             toP1 = !toP1
-
-
         }
-
 
     }
 

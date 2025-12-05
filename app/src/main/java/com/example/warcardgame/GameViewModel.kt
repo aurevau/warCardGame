@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 
 
 class GameViewModel(application: Application): AndroidViewModel(application) {
-
     private val warPlayerCardsSavedList = mutableListOf<Card?>()
     private val opponentCardsSavedList = mutableListOf<Card?>()
     private val game = Game()
@@ -39,9 +38,6 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     private val _opponentCardImage = MutableLiveData<Int>()
     val opponentCardImage: LiveData<Int> = _opponentCardImage
 
-    private val _announcement = MutableLiveData<String>()
-    val announcement: LiveData<String> = _announcement
-
     private val _warAnnouncement = MutableLiveData<String>()
     val warAnnouncement: LiveData<String> = _warAnnouncement
     private val _navigateToWar = MutableLiveData<Boolean>()
@@ -50,14 +46,14 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     private val _navigateToPlay = MutableLiveData<Boolean>()
     val navigateToPlay: LiveData<Boolean> = _navigateToPlay
 
+    private val _navigateToWinner = MutableLiveData<Boolean>()
+    val navigateToWinner: LiveData<Boolean> = _navigateToWinner
+
     private val _warPlayerCards = MutableLiveData<List<Int>>()
     val warPlayerCards: LiveData<List<Int>> = _warPlayerCards
 
     private val _warOpponentCards = MutableLiveData<List<Int>>()
     val warOpponentCards: LiveData<List<Int>> = _warOpponentCards
-
-    private val _navigateToWinner = MutableLiveData<Boolean>()
-    val navigateToWinner: LiveData<Boolean> = _navigateToWinner
 
     private val _roundWinnerName = MutableLiveData<String>()
     val roundWinnerName: LiveData<String> = _roundWinnerName
@@ -86,9 +82,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         deck.initializeCards()
         deck.dealCards(player1, player2)
 
-        _player1Name.value = player1.name
-        _player2Name.value = player2.name
-
+        updateNames()
         updateScore()
     }
 
@@ -159,7 +153,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     fun handleTie(){
         _roundWinnerName.value = "tie"
         if (player1.hand.size < 3 || player2.hand.size < 3) {
-            _announcement.value = "noWarCards"
+            _roundWinnerName.value = "noWarCards"
             _navigateToWar.value = false
         } else {
             _navigateToWar.value = true
@@ -175,8 +169,6 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
             RoundResult.TIE -> handleTie()
             RoundResult.JOKERP1 -> _jokerListener.value = player1.name
             RoundResult.JOKERP2 -> _jokerListener.value = player2.name
-            else -> ""
-
         }
     }
 
@@ -205,7 +197,6 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         warPlayerCardsSavedList.clear()
         opponentCardsSavedList.clear()
 
-
         player1 = Player(savedUserName)
         player2 = Player("CPU")
 
@@ -215,19 +206,18 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         deck.resetDeck()
         deck.dealCards(player1, player2)
 
+        updateNames()
+        updateScore()
+        setBackgroundCard()
+        resetRoundWinner()
+        resetFinalWinner()
+
+
+    }
+
+    fun updateNames(){
         _player1Name.value = player1.name
         _player2Name.value = player2.name
-
-
-
-        updateScore()
-
-        _playerCardImage.value = R.drawable.background_card
-        _opponentCardImage.value = R.drawable.background_card
-        resetRoundWinner()
-        _finalWinnerName.value = null
-
-
     }
 
     fun handleWarWinner(winner: Player?) {
@@ -256,17 +246,20 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         deck.resetDeck()
         deck.dealCards(player1, player2)
 
-        _player1Name.value = player1.name
-        _player2Name.value = player2.name
-
+        updateNames()
         updateScore()
+        setBackgroundCard()
+        resetFinalWinner()
+        resetRoundWinner()
+    }
 
+    fun setBackgroundCard(){
         _playerCardImage.value = R.drawable.background_card
         _opponentCardImage.value = R.drawable.background_card
+    }
 
+    fun resetFinalWinner() {
         _finalWinnerName.value = null
-        _announcement.value = ""
-        resetRoundWinner()
     }
 
     fun resetRoundWinner() {

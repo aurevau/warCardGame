@@ -29,8 +29,6 @@ class StartFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-//        val username = viewModel.player1Name.value ?: "Player1"
-//        viewModel.resetStartFragment(username)
     }
 
 
