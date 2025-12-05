@@ -1,18 +1,11 @@
 package com.example.warcardgame
 
-import android.R.attr.rotationY
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
-import android.content.Context
+
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -67,14 +60,14 @@ class PlayFragment : Fragment() {
 
         viewModel.player2Name.observe(viewLifecycleOwner) { name ->
             binding.tvPlayer2Username.text = getString(R.string.cpu)
-            binding.tvPlayer2UsernameStroke.text =getString(R.string.cpu)
+            binding.tvPlayer2UsernameStroke.text = getString(R.string.cpu)
         }
 
 
 
-        viewModel.jokerListener.observe(viewLifecycleOwner){name ->
+        viewModel.jokerListener.observe(viewLifecycleOwner) { name ->
             name ?: return@observe
-            when  {
+            when {
                 name == viewModel.player1Name.value -> {
                     YoYo.with(Techniques.Shake)
                         .duration(1000)
@@ -91,7 +84,7 @@ class PlayFragment : Fragment() {
             }
             binding.root.postDelayed({
                 binding.dealBtn.isEnabled = true
-            },1000)
+            }, 1000)
 
             binding.dealBtn.isEnabled = false
             setAnnouncementText(getString(R.string.joker, name))
@@ -120,20 +113,25 @@ class PlayFragment : Fragment() {
 
         viewModel.roundWinnerName.observe(viewLifecycleOwner) { name ->
 
-            when  {
-               name == "tie" -> { setAnnouncementText(getString(R.string.tie_text))
-                          binding.dealBtn.isEnabled = false}
-
-               name == "back" -> {
-                   setAnnouncementText(getString(R.string.back_from_war))
+            when {
+                name == "tie" -> {
+                    setAnnouncementText(getString(R.string.tie_text))
+                    binding.dealBtn.isEnabled = false
                 }
+
+                name == "back" -> {
+                    setAnnouncementText(getString(R.string.back_from_war))
+                }
+
                 name == "noWarCards" -> {
                     setAnnouncementText(getString(R.string.noCardsForWar))
                     binding.dealBtn.isEnabled = true
                 }
+
                 name == null -> {
                     setAnnouncementText(getString(R.string.game_start))
                 }
+
                 else -> {
                     setAnnouncementText(getString(R.string.player_win, name))
                 }
@@ -193,12 +191,10 @@ class PlayFragment : Fragment() {
         }
     }
 
-    fun setAnnouncementText(text: String){
+    fun setAnnouncementText(text: String) {
         binding.tvAnnouncement.text = text.uppercase()
         binding.tvAnnouncementStroke.text = text.uppercase()
     }
-
-
 
 
 }

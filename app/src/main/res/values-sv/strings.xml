@@ -16,7 +16,7 @@
     <!--War_Fragment -->
     <string name="war_winner">%3s: vinner kriget</string>
     <string name="war_text">KRIGET HAR STARTAT… DEN SOM FÅR HÖGST KORT FÅR ALLA</string>
-    <string name="joker_war">OH, %1s: FÅR EN JOKER OCH SNOR FEM EXTRA KORT AV DIG PLUS ALLA KRIGSKORT</string>
+    <string name="joker_war">%1s: FÅR EN JOKER OCH SNOR FEM EXTRA KORT AV DIG PLUS ALLA KRIGSKORT</string>
     <string name="winner_war">%1$s: vinner kriget och får 6 extra kort</string>
     <!--Winner_Fragment -->
     <string name="player_1">Spelare 1</string>

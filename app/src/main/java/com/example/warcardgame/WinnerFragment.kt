@@ -12,8 +12,8 @@ import com.daimajia.androidanimations.library.YoYo
 import com.example.warcardgame.databinding.FragmentWinnerBinding
 
 class WinnerFragment : Fragment() {
-    lateinit var viewModel : GameViewModel
-    lateinit var binding : FragmentWinnerBinding
+    lateinit var viewModel: GameViewModel
+    lateinit var binding: FragmentWinnerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +37,10 @@ class WinnerFragment : Fragment() {
         val playAgainButton = binding.playAgainBtn
 
 
-        viewModel.finalWinnerName.observe(viewLifecycleOwner){name->
+        viewModel.finalWinnerName.observe(viewLifecycleOwner) { name ->
             binding.winnerTextmain.text = getString(R.string.winner_is, name)
             binding.winnerTextStroke.text = getString(R.string.winner_is, name)
         }
-
 
         YoYo.with(Techniques.Wave)
             .duration(1000)
@@ -77,7 +76,7 @@ class WinnerFragment : Fragment() {
 
         playAgainButton.setOnClickListener {
             viewModel.resetGame()
-            parentFragmentManager.beginTransaction().apply{
+            parentFragmentManager.beginTransaction().apply {
                 replace(R.id.mainContainer, PlayFragment())
                 commit()
 
@@ -88,7 +87,7 @@ class WinnerFragment : Fragment() {
             val username = viewModel.player1Name.value ?: getString(R.string.player_1)
             viewModel.resetStartFragment(username)
 
-            parentFragmentManager.beginTransaction().apply{
+            parentFragmentManager.beginTransaction().apply {
                 replace(R.id.mainContainer, StartFragment())
                 commit()
             }
