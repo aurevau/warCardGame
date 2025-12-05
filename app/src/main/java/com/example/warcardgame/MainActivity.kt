@@ -16,7 +16,7 @@ import kotlin.random.Random
 import com.example.warcardgame.databinding.ActivityMainBinding
 import java.util.logging.Handler
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     val startFragment = StartFragment()
 

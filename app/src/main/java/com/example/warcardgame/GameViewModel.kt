@@ -7,8 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 
-class GameViewModel(application: Application): AndroidViewModel(application) {
-
+class GameViewModel(application: Application) : AndroidViewModel(application) {
     private val warPlayerCardsSavedList = mutableListOf<Card?>()
     private val opponentCardsSavedList = mutableListOf<Card?>()
     private val game = Game()
@@ -17,6 +16,8 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
 
     private lateinit var player1: Player
     private lateinit var player2: Player
+    private val revealedOpponentIndices = mutableSetOf<Int>()
+
 
     private val _firstRound = MutableLiveData<Boolean>()
     val firstRound: LiveData<Boolean> = _firstRound
@@ -39,9 +40,6 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     private val _opponentCardImage = MutableLiveData<Int>()
     val opponentCardImage: LiveData<Int> = _opponentCardImage
 
-    private val _announcement = MutableLiveData<String>()
-    val announcement: LiveData<String> = _announcement
-
     private val _warAnnouncement = MutableLiveData<String>()
     val warAnnouncement: LiveData<String> = _warAnnouncement
     private val _navigateToWar = MutableLiveData<Boolean>()
@@ -50,14 +48,14 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     private val _navigateToPlay = MutableLiveData<Boolean>()
     val navigateToPlay: LiveData<Boolean> = _navigateToPlay
 
+    private val _navigateToWinner = MutableLiveData<Boolean>()
+    val navigateToWinner: LiveData<Boolean> = _navigateToWinner
+
     private val _warPlayerCards = MutableLiveData<List<Int>>()
     val warPlayerCards: LiveData<List<Int>> = _warPlayerCards
 
     private val _warOpponentCards = MutableLiveData<List<Int>>()
     val warOpponentCards: LiveData<List<Int>> = _warOpponentCards
-
-    private val _navigateToWinner = MutableLiveData<Boolean>()
-    val navigateToWinner: LiveData<Boolean> = _navigateToWinner
 
     private val _roundWinnerName = MutableLiveData<String>()
     val roundWinnerName: LiveData<String> = _roundWinnerName
@@ -86,9 +84,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         deck.initializeCards()
         deck.dealCards(player1, player2)
 
-        _player1Name.value = player1.name
-        _player2Name.value = player2.name
-
+        updateNames()
         updateScore()
     }
 
@@ -110,7 +106,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     fun onWar() {
         _cardsDisabled.value = false
         checkCardsForWar()
-
+        revealedOpponentIndices.clear()
         val playerCard1 = game.drawCard(player1)
         val playerCard2 = game.drawCard(player1)
         val playerCard3 = game.drawCard(player1)
@@ -133,13 +129,18 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
 
 
     fun revealCard(index: Int) {
-        val opponentIndex = (0..2).random()
+        val availableIndices = (0..2).filter { it !in revealedOpponentIndices }
+
+        val opponentIndex = (availableIndices).random()
+        revealedOpponentIndices.add(opponentIndex)
+
         val playerCard = warPlayerCardsSavedList[index]
         val opponentCard = opponentCardsSavedList[opponentIndex]
         fillWarPot()
 
         // Skapar kopia av livedatalistan för att kunna ta ut drawable int
-        val currentPlayerCards = _warPlayerCards.value?.toMutableList() ?: MutableList(3) { R.drawable.background_card }
+        val currentPlayerCards =
+            _warPlayerCards.value?.toMutableList() ?: MutableList(3) { R.drawable.background_card }
         val currentOpponentCards = _warOpponentCards.value?.toMutableList()
             ?: MutableList(3) { R.drawable.background_card }
 
@@ -149,17 +150,21 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         _warPlayerCards.value = currentPlayerCards
         _warOpponentCards.value = currentOpponentCards
 
-        checkJoker(playerCard, opponentCard)
+        if (checkJoker(playerCard, opponentCard)) {
+            return
+        }
+
         val winner = checkWinner(playerCard, opponentCard)
         handleWarWinner(winner)
+
         checkEndGame()
         updateScore()
     }
 
-    fun handleTie(){
+    fun handleTie() {
         _roundWinnerName.value = "tie"
         if (player1.hand.size < 3 || player2.hand.size < 3) {
-            _announcement.value = "noWarCards"
+            _roundWinnerName.value = "noWarCards"
             _navigateToWar.value = false
         } else {
             _navigateToWar.value = true
@@ -168,15 +173,13 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun handleRoundResult(result: RoundResult){
+    fun handleRoundResult(result: RoundResult) {
         when (result) {
             RoundResult.PLAYER1_WIN -> _roundWinnerName.value = player1.name
             RoundResult.PLAYER2_WIN -> _roundWinnerName.value = player2.name
             RoundResult.TIE -> handleTie()
             RoundResult.JOKERP1 -> _jokerListener.value = player1.name
             RoundResult.JOKERP2 -> _jokerListener.value = player2.name
-            else -> ""
-
         }
     }
 
@@ -205,7 +208,6 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         warPlayerCardsSavedList.clear()
         opponentCardsSavedList.clear()
 
-
         player1 = Player(savedUserName)
         player2 = Player("CPU")
 
@@ -215,19 +217,18 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         deck.resetDeck()
         deck.dealCards(player1, player2)
 
+        updateNames()
+        updateScore()
+        setBackgroundCard()
+        resetRoundWinner()
+        resetFinalWinner()
+
+
+    }
+
+    fun updateNames() {
         _player1Name.value = player1.name
         _player2Name.value = player2.name
-
-
-
-        updateScore()
-
-        _playerCardImage.value = R.drawable.background_card
-        _opponentCardImage.value = R.drawable.background_card
-        resetRoundWinner()
-        _finalWinnerName.value = null
-
-
     }
 
     fun handleWarWinner(winner: Player?) {
@@ -256,17 +257,20 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         deck.resetDeck()
         deck.dealCards(player1, player2)
 
-        _player1Name.value = player1.name
-        _player2Name.value = player2.name
-
+        updateNames()
         updateScore()
+        setBackgroundCard()
+        resetFinalWinner()
+        resetRoundWinner()
+    }
 
+    fun setBackgroundCard() {
         _playerCardImage.value = R.drawable.background_card
         _opponentCardImage.value = R.drawable.background_card
+    }
 
+    fun resetFinalWinner() {
         _finalWinnerName.value = null
-        _announcement.value = ""
-        resetRoundWinner()
     }
 
     fun resetRoundWinner() {
@@ -278,7 +282,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun checkWinner(playerCard: Card?, opponentCard: Card?): Player? {
-        return when{
+        return when {
             playerCard == null || opponentCard == null -> null
             playerCard.value > opponentCard.value -> player1
             opponentCard.value > playerCard.value -> player2
@@ -286,7 +290,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun checkEndGame(){
+    fun checkEndGame() {
         if (game.isGameOver()) {
             val winner = if (player1.hand.isEmpty()) player2.name else player1.name
             _finalWinnerName.value = winner
@@ -296,12 +300,12 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun fillWarPot(){
+    fun fillWarPot() {
         game.warPot.clear()
         game.warPot.addAll((warPlayerCardsSavedList + opponentCardsSavedList).filterNotNull())
     }
 
-    fun setWarCardsBackground(){
+    fun setWarCardsBackground() {
         _warPlayerCards.value = listOf(
             R.drawable.background_card,
             R.drawable.background_card,
@@ -314,7 +318,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         )
     }
 
-    fun checkCardsForWar(){
+    fun checkCardsForWar() {
         if (player1.hand.size < 3 || player2.hand.size < 3) {
             _warAnnouncement.value = "noWarCards"
             _navigateToPlay.value = true
@@ -322,26 +326,29 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun clearWarLists(){
+    fun clearWarLists() {
         warPlayerCardsSavedList.clear()
         opponentCardsSavedList.clear()
     }
 
-    fun checkJoker(playerCard: Card?, opponentCard: Card?){
+    fun checkJoker(playerCard: Card?, opponentCard: Card?): Boolean {
         if (playerCard?.value == 15) {
             _jokerListener.value = player1.name
             _cardsDisabled.value = true
+            _warWinnerName.value = "jokerp1"
+            _roundWinnerName.value = "back"
             _navigateToPlay.value = true
-            return
+            return true
         } else if (opponentCard?.value == 15) {
             _jokerListener.value = player2.name
             _cardsDisabled.value = true
+            _warWinnerName.value = "jokerp2"
+            _roundWinnerName.value = "back"
             _navigateToPlay.value = true
-            return
+            return true
         }
+        return false
     }
-
-
 
 
 }

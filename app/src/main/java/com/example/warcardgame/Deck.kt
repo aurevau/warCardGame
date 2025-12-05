@@ -4,7 +4,7 @@ import kotlin.collections.mutableListOf
 import kotlin.random.Random
 
 class Deck() {
-     val deck = mutableListOf<Card>()
+    val deck = mutableListOf<Card>()
 
     private lateinit var shuffledDeck: MutableList<Card>
 
@@ -70,14 +70,10 @@ class Deck() {
         deck.add(Card("spade", 13, R.drawable.spade_13))
 
         deck.add(Card("joker", 15, R.drawable.joker))
-//        deck.add(Card("joker", 15, R.drawable.joker))
         deck.add(Card("joker", 15, R.drawable.joker))
-
 
         shuffledDeck = deck.shuffled().toMutableList()
     }
-
-
 
 
     fun dealCards(player1: Player, player2: Player) {
@@ -92,14 +88,11 @@ class Deck() {
                 player2.hand.add(card)
             }
             toP1 = !toP1
-
-
         }
-
 
     }
 
-    fun resetDeck(){
+    fun resetDeck() {
         shuffledDeck.clear()
         initializeCards()
     }

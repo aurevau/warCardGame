@@ -1,8 +1,7 @@
 package com.example.warcardgame
 
-import android.content.Context
+
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +18,7 @@ class StartFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,8 +29,6 @@ class StartFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-//        val username = viewModel.player1Name.value ?: "Player1"
-//        viewModel.resetStartFragment(username)
     }
 
 
@@ -40,10 +38,10 @@ class StartFragment : Fragment() {
 
         binding.startGameBtn.setOnClickListener {
             val name = binding.etUsernameInput.text.toString()
-            if(name.isNotEmpty()) {
+            if (name.isNotEmpty()) {
                 viewModel.startGame(name)
 
-                parentFragmentManager.beginTransaction().apply{
+                parentFragmentManager.beginTransaction().apply {
                     val playFragment = PlayFragment()
                     replace(R.id.mainContainer, playFragment)
                     commit()
@@ -52,14 +50,12 @@ class StartFragment : Fragment() {
             }
         }
 
-
         binding.exitBtn.setOnClickListener {
             requireActivity().finish()
         }
 
 
     }
-
 
 
 }

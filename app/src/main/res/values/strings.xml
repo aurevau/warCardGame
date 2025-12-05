@@ -12,7 +12,7 @@
     <string name="game_reset">GAME RESET, READY TO DEAL</string>
     <string name="no_winner">NO WINNER ANNOUNCED</string>
     <string name="back_from_war">AND WE ARE BACK, GAME IS ON</string>
-    <string name="joker">OH, %1s: GETS A JOKER AND STEALS FIVE EXTRA CARDS</string>
+    <string name="joker">%1s: GETS A JOKER AND STEALS FIVE EXTRA CARDS</string>
 
     <!--War_Fragment -->
     <string name="war_winner">%3s: WINS THE WAR</string>

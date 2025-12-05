@@ -1,118 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WinnerFragment"
-    android:background="@color/green"
     android:layout_gravity="center_horizontal"
-    android:orientation="vertical">
+    android:background="@color/green"
+    android:orientation="vertical"
+    tools:context=".WinnerFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-<!--        <ImageButton-->
-<!--            android:id="@+id/exit_btn"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:src="@drawable/exit_btn"-->
-<!--            android:background="@android:color/transparent"-->
-<!--            android:layout_gravity="end"-->
-<!--            android:layout_marginRight="20dp"-->
-<!--            android:layout_marginTop="36dp"/>-->
-
         <ImageView
-            android:layout_marginTop="60dp"
-            android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/war"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="60dp"
+            android:src="@drawable/war" />
     </LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/throphy"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:src="@drawable/throphy" />
-
-
+        <ImageView
+            android:id="@+id/throphy"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/throphy" />
 
         <TextView
             android:id="@+id/winner_textStroke"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="80dp"
             android:textAlignment="center"
             android:textColor="#1c1c1c"
             android:textSize="34sp"
             android:textStyle="bold"
-            android:layout_gravity="center"
-            android:layout_marginTop="2dp"
-            android:layout_marginStart="2dp"
-            tools:text="WINNER IS"
-            android:layout_marginBottom="80dp"/>
+            tools:text="WINNER IS" />
 
         <TextView
             android:id="@+id/winner_textmain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="80dp"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="34sp"
             android:textStyle="bold"
-            android:layout_gravity="center"
-            tools:text="WINNER IS"
-            android:layout_marginBottom="80dp"/>
+            tools:text="WINNER IS" />
 
-
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginBottom="168dp">
-
-
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="168dp">
 
             <ImageButton
-                android:visibility="gone"
-                android:layout_gravity="center_horizontal"
                 android:id="@+id/play_again_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/play_again_btn"
+                android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
-                />
-            </FrameLayout>
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginBottom="82dp">
+                android:src="@drawable/play_again_btn"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="82dp">
+
             <ImageButton
-                android:visibility="gone"
-                android:layout_gravity="center_horizontal"
                 android:id="@+id/new_game_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/new_game_btn"
+                android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
-                />
-            </FrameLayout>
-
-
-
-
+                android:src="@drawable/new_game_btn"
+                android:visibility="gone" />
+        </FrameLayout>
     </FrameLayout>
-
 </LinearLayout>

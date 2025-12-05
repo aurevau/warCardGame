@@ -3,29 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StartFragment"
-    android:background="@color/green">
+    android:background="@color/green"
+    tools:context=".StartFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <ImageButton
-        android:id="@+id/exit_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/exit_btn"
-        android:background="@android:color/transparent"
-        android:layout_gravity="end"
-        android:padding="16dp"
-        />
+        <ImageButton
+            android:id="@+id/exit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@android:color/transparent"
+            android:padding="16dp"
+            android:src="@drawable/exit_btn" />
 
-    <ImageView
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/war"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/war" />
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -39,24 +38,26 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/greeting"
-                android:textColor="#1c1c1c"
-                android:textStyle="bold"
-                android:textSize="@dimen/medium_text_size"
-                android:textAlignment="center"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="2dp"
-                android:layout_marginStart="4dp"/>
-        <TextView
-            android:textSize="@dimen/medium_text_size"
-            android:textStyle="bold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/greeting"
-            android:textColor="@color/white"
-            android:textAlignment="center"
+                android:text="@string/greeting"
+                android:textAlignment="center"
+                android:textColor="#1c1c1c"
+                android:textSize="@dimen/medium_text_size"
+                android:textStyle="bold" />
 
-            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/greeting"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/medium_text_size"
+                android:textStyle="bold"
+
+                />
         </FrameLayout>
+
         <FrameLayout
 
             android:layout_width="wrap_content"
@@ -64,12 +65,12 @@
             android:layout_gravity="center_horizontal">
 
             <View
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center_horizontal"
                 android:layout_width="348dp"
                 android:layout_height="42dp"
-                android:background="@drawable/rectangle"/>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rectangle" />
 
             <EditText
                 android:id="@+id/et_username_input"
@@ -78,18 +79,17 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@color/white"
                 android:hint="@string/username_hint"
-                android:textSize="12dp"
-                />
+                android:textSize="12dp" />
         </FrameLayout>
 
         <ImageButton
-            android:paddingTop="48dp"
             android:id="@+id/start_game_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/start_btn"
+            android:layout_gravity="center_horizontal"
             android:background="@android:color/transparent"
-            android:layout_gravity="center_horizontal"/>
+            android:paddingTop="48dp"
+            android:src="@drawable/start_btn" />
 
     </LinearLayout>
 
