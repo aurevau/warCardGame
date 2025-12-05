@@ -32,7 +32,7 @@ class WarFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        viewModel.onWar()
+
 
         binding.playerCard1.setOnClickListener {
             viewModel.revealCard(0)
@@ -70,24 +70,37 @@ class WarFragment : Fragment() {
         }
 
         viewModel.warWinnerName.observe(viewLifecycleOwner) { name ->
-            if (name == "tie") {
-                setTextView(getString(R.string.warTie))
-            } else {
-                setTextView(getString(R.string.winner_war, name))
+            when (name) {
+                "jokerp1" -> {
+                    setTextView(getString(R.string.joker_war, viewModel.player1Name.value))
+                }
+
+                "jokerp2" -> {
+                    setTextView(getString(R.string.joker_war, viewModel.player2Name.value))
+                }
+
+                "tie" -> {
+                    setTextView(getString(R.string.warTie))
+                }
+                else -> {  setTextView(getString(R.string.winner_war, name))
+                }
             }
         }
-
         viewModel.warAnnouncement.observe(viewLifecycleOwner){text ->
-            if(text == null){
-                setTextView(getString(R.string.war_text))
-            }
+           when {
+               text == null -> {
+                   setTextView(getString(R.string.war_text))
+               }
+           }
     }
 
         viewModel.jokerListener.observe(viewLifecycleOwner){name ->
             name ?: return@observe
             yoyoOnAllWarCards()
-            setTextView(getString(R.string.joker_war, name))
+//            setTextView(getString(R.string.joker_war, name))
             SoundPlayer.soundEffect(requireActivity())
+
+
             viewModel.jokerHandled()
         }
 
@@ -99,6 +112,7 @@ class WarFragment : Fragment() {
                 binding.playerCard3.isEnabled = false
             }
         }
+        viewModel.onWar()
 
         }
 

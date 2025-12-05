@@ -16,6 +16,8 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
 
     private lateinit var player1: Player
     private lateinit var player2: Player
+    private val revealedOpponentIndices = mutableSetOf<Int>()
+
 
     private val _firstRound = MutableLiveData<Boolean>()
     val firstRound: LiveData<Boolean> = _firstRound
@@ -104,7 +106,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     fun onWar() {
         _cardsDisabled.value = false
         checkCardsForWar()
-
+        revealedOpponentIndices.clear()
         val playerCard1 = game.drawCard(player1)
         val playerCard2 = game.drawCard(player1)
         val playerCard3 = game.drawCard(player1)
@@ -127,7 +129,11 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
 
 
     fun revealCard(index: Int) {
-        val opponentIndex = (0..2).random()
+        val availableIndices = (0..2).filter { it !in revealedOpponentIndices }
+
+        val opponentIndex = (availableIndices).random()
+        revealedOpponentIndices.add(opponentIndex)
+
         val playerCard = warPlayerCardsSavedList[index]
         val opponentCard = opponentCardsSavedList[opponentIndex]
         fillWarPot()
@@ -143,9 +149,13 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         _warPlayerCards.value = currentPlayerCards
         _warOpponentCards.value = currentOpponentCards
 
-        checkJoker(playerCard, opponentCard)
+        if (checkJoker(playerCard, opponentCard)){
+            return
+            }
+
         val winner = checkWinner(playerCard, opponentCard)
         handleWarWinner(winner)
+
         checkEndGame()
         updateScore()
     }
@@ -320,18 +330,23 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         opponentCardsSavedList.clear()
     }
 
-    fun checkJoker(playerCard: Card?, opponentCard: Card?){
+    fun checkJoker(playerCard: Card?, opponentCard: Card?): Boolean{
         if (playerCard?.value == 15) {
             _jokerListener.value = player1.name
             _cardsDisabled.value = true
+            _warWinnerName.value ="jokerp1"
+            _roundWinnerName.value = "back"
             _navigateToPlay.value = true
-            return
+            return true
         } else if (opponentCard?.value == 15) {
             _jokerListener.value = player2.name
             _cardsDisabled.value = true
+            _warWinnerName.value ="jokerp2"
+            _roundWinnerName.value = "back"
             _navigateToPlay.value = true
-            return
+            return true
         }
+        return false
     }
 
 

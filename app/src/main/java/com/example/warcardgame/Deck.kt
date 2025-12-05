@@ -70,9 +70,8 @@ class Deck() {
         deck.add(Card("spade", 13, R.drawable.spade_13))
 
         deck.add(Card("joker", 15, R.drawable.joker))
-//        deck.add(Card("joker", 15, R.drawable.joker))
         deck.add(Card("joker", 15, R.drawable.joker))
-
+        deck.add(Card("joker", 15, R.drawable.joker))
 
         shuffledDeck = deck.shuffled().toMutableList()
     }

@@ -129,6 +129,7 @@ class PlayFragment : Fragment() {
                 }
                 name == "noWarCards" -> {
                     setAnnouncementText(getString(R.string.noCardsForWar))
+                    binding.dealBtn.isEnabled = true
                 }
                 name == null -> {
                     setAnnouncementText(getString(R.string.game_start))
