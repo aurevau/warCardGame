@@ -39,11 +39,11 @@ The initial design and it´s elements was created in Figma.
 The project follows MVVM: 
 UI (Fragments)
 
-      ↓
+     ↓
    
 GameViewModel
 
-      ↓
+     ↓
    
 Game / Deck / Player / Card
 
