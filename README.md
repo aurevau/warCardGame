@@ -5,6 +5,7 @@ This project is an Android implementation of the classic card game War, built in
 Made as a first App-project in the Android Developement Course. 
 
 ## App-Design
+The initial design and it´s elements was created in Figma.
 <img width="3245" height="1957" alt="warCardGameDesign" src="https://github.com/user-attachments/assets/a3b2f922-eaf2-43b5-a4dd-573f5b87f989" />
 
 ## Gameplay
@@ -38,9 +39,13 @@ Made as a first App-project in the Android Developement Course.
 The project follows MVVM: 
 
 UI (Fragments)
+
    ↓
+   
 GameViewModel
+
    ↓
+   
 Game / Deck / Player / Card
 
 ## Key Classes
@@ -76,7 +81,8 @@ Game / Deck / Player / Card
 - When played:
   - The opponent loses up to 5 cards
   - Animation and sound effects are triggered
+
  
-Created by Aurelie Vaudan. 
+Created by **Aurelie Vaudan.**
 
 
