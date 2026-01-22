@@ -24,6 +24,7 @@ The initial design and it´s elements was created in Figma.
 - Real-time score tracking
 - Winner screen
 - Replay / New game options
+- Buttons being disabled when tie, joker and win
 
 ## Tech Stack
 - Kotlin
@@ -85,8 +86,6 @@ Game / Deck / Player / Card
  
 Created by **Aurelie Vaudan.**
 
-https://github.com/user-attachments/assets/234c0b1a-a91d-41d5-82da-de7f888eb53d
-
-
+https://github.com/user-attachments/assets/eed39669-9aca-412d-8284-cbea0b9c2ac5
 
 
