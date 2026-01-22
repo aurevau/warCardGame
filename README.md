@@ -82,7 +82,13 @@ Game / Deck / Player / Card
 - When played:
   - The opponent loses up to 5 cards
   - Animation and sound effects are triggered
-
+ 
+## Future Features
+-  Online multiplayer mode
+-  Persistent high score tracking
+-  Player statistics
+-  Custom themes / card designs
+-  Better use of MVVM principles
  
 Created by **Aurelie Vaudan.**
 
